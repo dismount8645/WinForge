@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "WingetStore (Package)": {
+      "commandName": "MsixPackage",
+      "commandLineArgs": "--run-ui-tests"
+    },
+    "WingetStore (Unpackaged)": {
+      "commandName": "Project",
+      "commandLineArgs": "--run-ui-tests"
+    }
+  }
+}
