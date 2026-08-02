@@ -9,10 +9,13 @@ using WingetStore.Services;
 
 namespace WingetStore;
 
+public enum NavigationMode { Desktop, Tablet, Phone }
+
 public sealed partial class MainWindow : Window
 {
     private double _lastRasterizationScale = double.NaN;
     private bool _isResizing;
+    private NavigationMode _currentNavigationMode;
 
     public MainWindow()
     {
@@ -42,6 +45,7 @@ public sealed partial class MainWindow : Window
                 settingsItem.Content = "Settings";
                 settingsItem.Margin = new Thickness(0, 0, 0, 64);
             }
+            ApplyNavigationMode(NavView.ActualWidth);
         };
         NavFrame.Navigated += NavFrame_Navigated;
         _ = RefreshUpdatesCountAsync();
@@ -55,8 +59,23 @@ public sealed partial class MainWindow : Window
         return ((int)Math.Ceiling(targetW * scale), (int)Math.Ceiling(targetH * scale));
     }
 
+    public static NavigationMode GetNavigationMode(double width) => width switch
+    {
+        >= 900 => NavigationMode.Desktop,
+        >= 600 => NavigationMode.Tablet,
+        _ => NavigationMode.Phone
+    };
+
+    public static (NavigationViewPaneDisplayMode PaneDisplayMode, bool IsPaneFooterVisible, double SettingsBottomMargin) GetNavigationModeLayout(NavigationMode mode) => mode switch
+    {
+        NavigationMode.Desktop => (NavigationViewPaneDisplayMode.Left, true, 64),
+        NavigationMode.Tablet => (NavigationViewPaneDisplayMode.LeftCompact, false, 0),
+        _ => (NavigationViewPaneDisplayMode.LeftMinimal, false, 0)
+    };
+
     private void MainWindow_SizeChanged(object sender, WindowSizeChangedEventArgs args)
     {
+        ApplyNavigationMode(args.Size.Width);
         if (_isResizing || RootGrid?.XamlRoot == null) return;
         double scale = RootGrid.XamlRoot.RasterizationScale;
         if (args.Size.Width < 800 || args.Size.Height < 500)
@@ -77,6 +96,37 @@ public sealed partial class MainWindow : Window
             }
         }
     }
+
+    private void ApplyNavigationMode(double width)
+    {
+        NavigationMode mode = GetNavigationMode(width);
+        if (_currentNavigationMode == mode) return;
+        _currentNavigationMode = mode;
+        if (NavView == null) return;
+
+        var (paneDisplayMode, isFooterVisible, settingsMargin) = GetNavigationModeLayout(mode);
+        NavView.PaneDisplayMode = paneDisplayMode;
+        NavView.IsPaneToggleButtonVisible = mode != NavigationMode.Desktop;
+        NavView.PaneFooter = isFooterVisible ? CreatePaneFooter() : null;
+        if (NavView.SettingsItem is NavigationViewItem settingsItem)
+            settingsItem.Margin = new Thickness(0, 0, 0, settingsMargin);
+    }
+
+    private static Grid CreatePaneFooter() => new Grid
+    {
+        Height = 44,
+        Padding = new Thickness(12, 0, 12, 0),
+        Children =
+        {
+            new TextBlock
+            {
+                Text = "Winget Desktop v1.0.0",
+                VerticalAlignment = VerticalAlignment.Center,
+                Foreground = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["TextFillColorDisabledBrush"],
+                FontSize = 11
+            }
+        }
+    };
 
     private void RootGrid_Loaded(object sender, RoutedEventArgs e)
     {

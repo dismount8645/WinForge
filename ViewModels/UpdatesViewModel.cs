@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -13,7 +14,6 @@ public partial class UpdatesViewModel : FilterableViewModel
     private List<WingetPackage> _allUpgrades = [];
     [ObservableProperty] public partial ObservableCollection<WingetPackage> FilteredUpgrades { get; set; } = [];
     [ObservableProperty] public partial ObservableCollection<WingetPackage> Upgrades { get; set; } = [];
-    [ObservableProperty] public partial string SourceFilter { get; set; } = SourceFilters.All;
     [ObservableProperty] public partial bool IsGlobalProgressVisible { get; set; }
     [ObservableProperty] public partial double GlobalProgressValue { get; set; }
     [ObservableProperty] public partial string GlobalProgressPercentText { get; set; } = "0%";
@@ -40,7 +40,6 @@ public partial class UpdatesViewModel : FilterableViewModel
             });
         });
     }
-    partial void OnSourceFilterChanged(string value) => ApplyFilter();
     [RelayCommand]
     public async Task LoadUpgradesAsync()
     {
@@ -56,7 +55,7 @@ public partial class UpdatesViewModel : FilterableViewModel
                 if (App.MainWindow is MainWindow mainWindow) mainWindow.UpdateUpdatesBadge(Upgrades.Count);
                 ApplyFilter();
                 UpdateGlobalProgress();
-                LastRefreshTimeText = $"Last checked: {DateTime.Now:h:mm tt}";
+                LastRefreshTimeText = $"Last checked: {DateTime.Now.ToString("h:mm tt", CultureInfo.InvariantCulture)}";
             });
         }
         catch (Exception ex)
@@ -87,11 +86,7 @@ public partial class UpdatesViewModel : FilterableViewModel
         return removedFromUpgrades || removedCount > 0;
     }
 
-    public static List<WingetPackage> GetEligiblePackagesForUpgrade(IEnumerable<WingetPackage>? packages)
-    {
-        if (packages == null) return [];
-        return packages.Where(p => p != null && !p.IsInstalling).ToList();
-    }
+    public static List<WingetPackage> GetEligiblePackagesForUpgrade(IEnumerable<WingetPackage>? packages) => PackageFilteringHelper.GetEligiblePackagesForAction(packages);
 
     public static (List<WingetPackage> FilteredUpgrades, int AppsCount, int RedistCount, int TotalCount) FilterUpgradablePackages(
         IEnumerable<WingetPackage>? packages,
@@ -101,17 +96,8 @@ public partial class UpdatesViewModel : FilterableViewModel
         string? sortBy,
         string? sortDirection)
     {
-        var inputList = packages?.Where(p => p != null).ToList() ?? [];
-        var baseList = inputList.FindAll(p => p.MatchesQuery(filterQuery ?? "") && MatchesSourceFilter(p.Source, sourceFilter ?? SourceFilters.All));
-
-        int appsCount = baseList.Count(p => !p.IsRedistributable);
-        int redistCount = baseList.Count(p => p.IsRedistributable);
-        int totalCount = baseList.Count;
-
-        var filtered = baseList.FindAll(p => MatchesCategoryFilter(p.IsRedistributable, categoryFilter));
-        PackageFilteringHelper.SortPackages(filtered, sortBy ?? "Name", sortDirection ?? "Ascending");
-
-        return (filtered, appsCount, redistCount, totalCount);
+        return PackageFilteringHelper.FilterAndCountPackages(
+            packages, filterQuery, sourceFilter, categoryFilter, sortBy, sortDirection);
     }
 
     public override void ApplyFilter()

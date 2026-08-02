@@ -18,8 +18,8 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- Custom title bar: back + identity left, theme toggle right -->
-        <Grid x:Name="AppTitleBar" Grid.Row="0" Height="48">
+        <!-- Custom title bar: back + identity left, theme toggle right. Right margin reserves space for system title bar buttons. -->
+        <Grid x:Name="AppTitleBar" Grid.Row="0" Height="48" Margin="0,0,138,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />

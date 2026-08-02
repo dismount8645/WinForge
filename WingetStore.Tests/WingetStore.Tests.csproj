@@ -15,6 +15,7 @@
     <SelfContained>true</SelfContained>
     <NoWarn>$(NoWarn);MTP0001</NoWarn>
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

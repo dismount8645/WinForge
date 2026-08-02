@@ -22,6 +22,15 @@ artifacts/
 *.coverage
 *.coveragexml
 
+# Coverage reports (dotnet coverage / reportgenerator)
+coverage-report*/
+coveragereport*/
+coverage*.xml
+merged-coverage.xml
+combined-coverage.xml
+int-coverage.xml
+xunit-coverage.xml
+
 # NuGet
 *.nupkg
 *.snupkg

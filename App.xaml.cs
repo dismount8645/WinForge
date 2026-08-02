@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Diagnostics;
@@ -10,6 +11,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using WingetStore.Models;
 using WingetStore.Services;
+using WingetStore.Testing;
 using WingetStore.ViewModels;
 
 namespace WingetStore;
@@ -43,10 +45,26 @@ public partial class App : Application
 
     public static ElementTheme ParseTheme(string theme) => theme switch { "Light" => ElementTheme.Light, "Dark" => ElementTheme.Dark, _ => ElementTheme.Default };
 
-    public static string GetCrashLogDirectory() => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "WingetStore");
-    public static string GetCrashLogPath() => Path.Combine(GetCrashLogDirectory(), "crash.log");
-    public static string GetCrashLogContent(string errorDetails) => $"[CRASH LOG - {DateTime.Now:yyyy-MM-dd HH:mm:ss}]\n{errorDetails}\n\n";
+    public static string GetCrashLogDirectory() => AppPaths.Root;
+    public static string GetCrashLogPath() => AppPaths.CrashLogFile;
+    public static string GetCrashLogContent(string errorDetails) => GetCrashLogContent(errorDetails, DateTime.Now);
+    public static string GetCrashLogContent(string errorDetails, DateTime timestamp) => $"[CRASH LOG - {timestamp.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)}]\n{errorDetails}\n\n";
     public static string FormatErrorDetails(Exception? ex, string message) => $"Exception: {ex?.GetType().Name}\nMessage: {message}\n\nStack Trace:\n{ex?.StackTrace}";
+
+    public static bool TryWriteCrashLog(string errorDetails)
+    {
+        try
+        {
+            Directory.CreateDirectory(GetCrashLogDirectory());
+            File.WriteAllText(GetCrashLogPath(), GetCrashLogContent(errorDetails));
+            return true;
+        }
+        catch (Exception exInner)
+        {
+            Debug.WriteLine($"Failed to write crash log: {exInner.Message}");
+            return false;
+        }
+    }
 
     public static bool IsUITestMode() => Environment.GetCommandLineArgs().Contains("--run-ui-tests", StringComparer.OrdinalIgnoreCase);
 
@@ -83,13 +101,7 @@ public partial class App : Application
     private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
     {
         e.Handled = true;
-        string errorDetails = FormatErrorDetails(e.Exception, e.Message);
-        try
-        {
-            Directory.CreateDirectory(GetCrashLogDirectory());
-            File.WriteAllText(GetCrashLogPath(), GetCrashLogContent(errorDetails));
-        }
-        catch (Exception exInner) { Debug.WriteLine($"Failed to write crash log: {exInner.Message}"); }
+        TryWriteCrashLog(FormatErrorDetails(e.Exception, e.Message));
 
         try { new ErrorWindow(e.Message, e.Exception?.ToString() ?? "No stack trace available.").Activate(); }
         catch { _ = MessageBox(IntPtr.Zero, $"An unexpected application error occurred:\n\n{e.Message}\n\nStack Trace:\n{e.Exception}", "Winget Desktop - Application Error", 0x10); }
@@ -146,7 +158,7 @@ public partial class App : Application
         if (MainWindow.Content is FrameworkElement root) root.RequestedTheme = ParseTheme(Settings.AppTheme);
         MainWindow.Activate();
 
-        if (Environment.GetCommandLineArgs().Contains("--run-ui-tests", StringComparer.OrdinalIgnoreCase))
+        if (IsUITestMode())
         {
             App.Dispatch(async () =>
             {
