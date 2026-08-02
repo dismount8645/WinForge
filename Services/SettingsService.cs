@@ -7,7 +7,7 @@ public class AppSettings { public bool AutoUpdate { get; set; } = false; public 
 
 public class SettingsService : ISettingsService
 {
-    private static string SettingsFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "WingetStore", "settings.json");
+    private static string SettingsFilePath = AppPaths.SettingsFile;
     private static AppSettings _settings = new() { AutoUpdate = false };
     static SettingsService() => LoadSettings();
     bool ISettingsService.AutoUpdate { get => AutoUpdate; set => AutoUpdate = value; }
@@ -24,8 +24,18 @@ public class SettingsService : ISettingsService
             var loaded = JsonSerializer.Deserialize<AppSettings>(json);
             return loaded ?? new AppSettings { AutoUpdate = false };
         }
-        catch
+        catch (Exception ex)
         {
+            LogService.LogError("Failed to deserialize settings JSON, settings reset due to corruption.", ex);
+            try
+            {
+                var notificationService = (INotificationService?)App.Services?.GetService(typeof(INotificationService)) ?? new NotificationService();
+                notificationService.ShowError("Settings Reset", "Settings were reset due to corruption.");
+            }
+            catch (Exception notifEx)
+            {
+                LogService.LogError("Failed to show corruption notification", notifEx);
+            }
             return new AppSettings { AutoUpdate = false };
         }
     }

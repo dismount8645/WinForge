@@ -288,41 +288,9 @@ public sealed partial class InstalledPage : Page
         return (glyph, isActive ? Visibility.Visible : Visibility.Collapsed);
     }
 
-    private void UpdateSortGlyphs()
-    {
-        string sortDirection = ViewModel.SortDirection;
-        string sortBy = ViewModel.SortBy;
+    private void UpdateSortGlyphs() => SortGlyphUpdater.Apply(ViewModel.SortBy, ViewModel.SortDirection, HeaderNameGlyph, HeaderVersionGlyph, HeaderPublisherGlyph);
 
-        if (HeaderNameGlyph != null)
-        {
-            var (glyph, vis) = GetSortGlyph(sortDirection, sortBy, "Name");
-            HeaderNameGlyph.Glyph = glyph;
-            HeaderNameGlyph.Visibility = vis;
-        }
-
-        if (HeaderVersionGlyph != null)
-        {
-            var (glyph, vis) = GetSortGlyph(sortDirection, sortBy, "Version");
-            HeaderVersionGlyph.Glyph = glyph;
-            HeaderVersionGlyph.Visibility = vis;
-        }
-
-        if (HeaderPublisherGlyph != null)
-        {
-            var (glyph, vis) = GetSortGlyph(sortDirection, sortBy, "Publisher");
-            HeaderPublisherGlyph.Glyph = glyph;
-            HeaderPublisherGlyph.Visibility = vis;
-        }
-    }
-
-    public static List<WingetPackage> GetEligibleBulkUninstallPackages(IEnumerable<WingetPackage?>? selectedPackages)
-    {
-        if (selectedPackages == null) return [];
-        return selectedPackages
-            .Where(pkg => pkg != null && !pkg.IsInstalling)
-            .Cast<WingetPackage>()
-            .ToList();
-    }
+    public static List<WingetPackage> GetEligibleBulkUninstallPackages(IEnumerable<WingetPackage?>? selectedPackages) => PackageFilteringHelper.GetEligiblePackagesForAction(selectedPackages);
 
     private void BulkUninstallButton_Click(object sender, RoutedEventArgs e)
     {

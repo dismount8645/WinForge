@@ -96,12 +96,16 @@ public partial class WingetPackage : INotifyPropertyChanged
     public string Initial => string.IsNullOrWhiteSpace(Name) ? "?" : Name.Trim()[..1].ToUpperInvariant();
     private Microsoft.UI.Xaml.Media.Brush? _placeholderBackground;
     public Microsoft.UI.Xaml.Media.Brush PlaceholderBackground => _placeholderBackground ??= GetPlaceholderBrushForName(Name);
+    private static readonly Windows.UI.Color[] PlaceholderColors =
+    [
+        Windows.UI.Color.FromArgb(255, 30, 144, 255), Windows.UI.Color.FromArgb(255, 46, 139, 87), Windows.UI.Color.FromArgb(255, 138, 43, 226), Windows.UI.Color.FromArgb(255, 210, 105, 30), Windows.UI.Color.FromArgb(255, 220, 20, 60), Windows.UI.Color.FromArgb(255, 0, 128, 128), Windows.UI.Color.FromArgb(255, 218, 112, 214), Windows.UI.Color.FromArgb(255, 255, 99, 71), Windows.UI.Color.FromArgb(255, 70, 130, 180), Windows.UI.Color.FromArgb(255, 186, 85, 211)
+    ];
+
     internal static Windows.UI.Color GetPlaceholderColorForName(string name)
     {
         if (string.IsNullOrWhiteSpace(name)) return Microsoft.UI.Colors.Gray;
         int hash = 0; foreach (char c in name) hash = c + (hash << 6) + (hash << 16) - hash;
-        var colors = new Windows.UI.Color[] { Windows.UI.Color.FromArgb(255, 30, 144, 255), Windows.UI.Color.FromArgb(255, 46, 139, 87), Windows.UI.Color.FromArgb(255, 138, 43, 226), Windows.UI.Color.FromArgb(255, 210, 105, 30), Windows.UI.Color.FromArgb(255, 220, 20, 60), Windows.UI.Color.FromArgb(255, 0, 128, 128), Windows.UI.Color.FromArgb(255, 218, 112, 214), Windows.UI.Color.FromArgb(255, 255, 99, 71), Windows.UI.Color.FromArgb(255, 70, 130, 180), Windows.UI.Color.FromArgb(255, 186, 85, 211) };
-        return colors[(int)Math.Abs((long)hash) % colors.Length];
+        return PlaceholderColors[(int)Math.Abs((long)hash) % PlaceholderColors.Length];
     }
 
     internal static Microsoft.UI.Xaml.Media.SolidColorBrush GetPlaceholderBrushForName(string name)

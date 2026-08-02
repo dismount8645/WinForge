@@ -27,9 +27,6 @@ public sealed partial class HomePage : Page
     private GridDimensions _lastGridDimensions;
 
     private string _currentNormalizedQuery = "";
-    private long _currentGenerationId;
-    private System.Threading.CancellationTokenSource? _searchCts;
-    private long _partialResultsGenerationId;
 
     public HomeViewModel ViewModel { get; }
     public RecommendationLayoutState LayoutState { get; } = new();
@@ -71,9 +68,8 @@ public sealed partial class HomePage : Page
 
     protected override void OnNavigatedFrom(NavigationEventArgs e)
     {
-        SaveDiscoveryState();
         _isPageActive = false;
-        CancelAndDisposeSearch();
+        ViewModel.CancelSearch();
         base.OnNavigatedFrom(e);
     }
 
@@ -105,13 +101,12 @@ public sealed partial class HomePage : Page
     private void OnTextScaleFactorChanged(UISettings sender, object args)
     {
         double factor = sender.TextScaleFactor;
-        bool queued = DispatcherQueue.TryEnqueue(() =>
+        DispatcherQueue.TryEnqueue(() =>
         {
             if (!_isPageActive) return;
             ApplyTextScale(factor);
             ApplyRecommendationGridLayout();
         });
-        if (!queued) { /* Intentionally avoid mutating UI during shutdown */ }
     }
 
     public static (double CardHeight, double ItemHeight) GetTextScaleData(double factor) => factor switch
@@ -194,6 +189,11 @@ public sealed partial class HomePage : Page
         return (Visibility.Visible, Visibility.Collapsed, listVis, emptyVis, title);
     }
 
+    internal static List<RecommendationCardViewModel> BuildRecommendationCards(IEnumerable<WingetPackage> packages, RecommendationLayoutState layoutState)
+    {
+        return (packages ?? []).Select(pkg => new RecommendationCardViewModel(pkg, layoutState)).ToList();
+    }
+
     private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(HomeViewModel.IsLoading))
@@ -208,6 +208,7 @@ public sealed partial class HomePage : Page
         {
             App.Dispatch(() =>
             {
+                if (!_isPageActive) return;
                 var (searchResultsVis, discoverVis, listVis, emptyVis, titleText) = DetermineSearchViewState(
                     ViewModel.IsSearchActive,
                     ViewModel.FilteredSearchResults.Count,
@@ -229,7 +230,7 @@ public sealed partial class HomePage : Page
         {
             App.Dispatch(() =>
             {
-                var cards = ViewModel.FilteredRecommendations.Select(pkg => new RecommendationCardViewModel(pkg, LayoutState)).ToList();
+                var cards = BuildRecommendationCards(ViewModel.FilteredRecommendations, LayoutState);
                 RecommendationsGrid.ItemsSource = cards;
                 RecommendationsPanel.Visibility = cards.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
                 ApplyRecommendationGridLayout();
@@ -289,9 +290,7 @@ public sealed partial class HomePage : Page
             return;
 
         _currentNormalizedQuery = normalized;
-        _currentGenerationId++;
-        _partialResultsGenerationId = _currentGenerationId;
-        CancelAndDisposeSearch();
+        ViewModel.CancelSearch();
 
         var (hintText, searchQuery) = GetSearchInputData(normalized);
         if (hintText != null)
@@ -304,18 +303,6 @@ public sealed partial class HomePage : Page
         }
         SearchHintText.Visibility = Visibility.Collapsed;
         _ = ViewModel.SearchAsync(searchQuery ?? "");
-    }
-
-    private void CancelAndDisposeSearch()
-    {
-        _searchCts?.Cancel();
-        _searchCts?.Dispose();
-        _searchCts = null;
-    }
-
-    private void SaveDiscoveryState()
-    {
-        // Saved state for Details back-navigation
     }
 
     private void HomeSearchBox_KeyDown(object sender, KeyRoutedEventArgs e)

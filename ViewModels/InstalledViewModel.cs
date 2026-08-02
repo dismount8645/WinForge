@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -15,7 +16,6 @@ public partial class InstalledViewModel : FilterableViewModel
     [ObservableProperty][NotifyPropertyChangedFor(nameof(DeveloperOptions))] public partial List<string> DevelopersList { get; set; } = [];
     [ObservableProperty] public partial string LastRefreshTimeText { get; set; } = "";
     public List<string> DeveloperOptions { get { var list = new List<string> { FilterDefaults.AllDevelopers }; if (DevelopersList != null) list.AddRange(DevelopersList); return list; } }
-    [ObservableProperty] public partial string SourceFilter { get; set; } = SourceFilters.All;
     [ObservableProperty] public partial string DeveloperFilter { get; set; } = FilterDefaults.AllDevelopers;
     public InstalledViewModel(IWingetService winget)
     {
@@ -37,7 +37,7 @@ public partial class InstalledViewModel : FilterableViewModel
             });
         });
     }
-    partial void OnSourceFilterChanged(string value) => ApplyFilter(); partial void OnDeveloperFilterChanged(string value) => ApplyFilter();
+    partial void OnDeveloperFilterChanged(string value) => ApplyFilter();
     [RelayCommand]
     public async Task LoadPackagesAsync()
     {
@@ -46,7 +46,7 @@ public partial class InstalledViewModel : FilterableViewModel
             App.Dispatch(() => { IsLoading = true; IsErrorOpen = false; ErrorMessage = ""; SourceFilter = SourceFilters.All; DeveloperFilter = FilterDefaults.AllDevelopers; });
             LogService.LogInfo("Loading installed packages...");
             var packages = await _winget.GetInstalledPackagesAsync();
-            App.Dispatch(() => { _allPackages = packages ?? []; PopulateDevelopersList(); ApplyFilter(); LastRefreshTimeText = $"Last refreshed: {DateTime.Now:h:mm tt}"; });
+            App.Dispatch(() => { _allPackages = packages ?? []; PopulateDevelopersList(); ApplyFilter(); LastRefreshTimeText = $"Last refreshed: {DateTime.Now.ToString("h:mm tt", CultureInfo.InvariantCulture)}"; });
         }
         catch (Exception ex)
         {
@@ -126,19 +126,9 @@ public partial class InstalledViewModel : FilterableViewModel
         string? sortBy,
         string? sortDirection)
     {
-        var inputList = packages?.Where(p => p != null).ToList() ?? [];
-        var baseList = inputList.FindAll(p => p.MatchesQuery(filterQuery ?? "")
-            && MatchesDeveloperFilter(p.Publisher, developerFilter)
-            && MatchesSourceFilter(p.Source, sourceFilter ?? SourceFilters.All));
-
-        int appsCount = baseList.Count(p => !p.IsRedistributable);
-        int redistCount = baseList.Count(p => p.IsRedistributable);
-        int totalCount = baseList.Count;
-
-        var filtered = baseList.FindAll(p => MatchesCategoryFilter(p.IsRedistributable, categoryFilter));
-        PackageFilteringHelper.SortPackages(filtered, sortBy ?? "Name", sortDirection ?? "Ascending");
-
-        return (filtered, appsCount, redistCount, totalCount);
+        return PackageFilteringHelper.FilterAndCountPackages(
+            packages, filterQuery, sourceFilter, categoryFilter, sortBy, sortDirection,
+            p => MatchesDeveloperFilter(p.Publisher, developerFilter));
     }
 
     private void PopulateDevelopersList()

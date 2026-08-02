@@ -14,6 +14,7 @@ public abstract partial class FilterableViewModel : ObservableObject
     [ObservableProperty] public partial string SortBy { get; set; } = "Name";
     [ObservableProperty] public partial string SortDirection { get; set; } = "Ascending";
     [ObservableProperty] public partial string CategoryFilter { get; set; } = "Apps";
+    [ObservableProperty] public partial string SourceFilter { get; set; } = SourceFilters.All;
     [ObservableProperty] public partial int AppsCount { get; set; }
     [ObservableProperty] public partial int RedistCount { get; set; }
     [ObservableProperty] public partial int TotalCount { get; set; }
@@ -32,14 +33,7 @@ public abstract partial class FilterableViewModel : ObservableObject
     public static string ResolveCategorySelection(string? currentCategoryFilter, string targetCategory, bool isSelected)
         => isSelected ? targetCategory : (currentCategoryFilter ?? "");
 
-    public static bool MatchesCategoryFilter(bool isRedistributable, string? categoryFilter)
-    {
-        if (string.Equals(categoryFilter, "Apps", StringComparison.OrdinalIgnoreCase))
-            return !isRedistributable;
-        if (string.Equals(categoryFilter, "Redist", StringComparison.OrdinalIgnoreCase))
-            return isRedistributable;
-        return true;
-    }
+    public static bool MatchesCategoryFilter(bool isRedistributable, string? categoryFilter) => PackageFilteringHelper.MatchesCategoryFilter(isRedistributable, categoryFilter);
 
     public bool IsCategoryApps
     {
@@ -64,6 +58,7 @@ public abstract partial class FilterableViewModel : ObservableObject
         OnPropertyChanged(nameof(IsCategoryAll));
         ApplyFilter();
     }
+    partial void OnSourceFilterChanged(string value) => ApplyFilter();
     partial void OnAppsCountChanged(int value) => OnPropertyChanged(nameof(AppsCountText));
     partial void OnRedistCountChanged(int value) => OnPropertyChanged(nameof(RedistCountText));
     partial void OnTotalCountChanged(int value) => OnPropertyChanged(nameof(AllCountText));

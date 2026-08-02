@@ -20,12 +20,9 @@ public partial class HomeViewModel(IWingetService winget) : FilterableViewModel
 
     [ObservableProperty] public partial ObservableCollection<WingetPackage> FilteredSearchResults { get; set; } = [];
     [ObservableProperty] public partial ObservableCollection<WingetPackage> SearchResults { get; set; } = [];
-    [ObservableProperty] public partial string SourceFilter { get; set; } = SourceFilters.All;
     [ObservableProperty] public partial string SearchQuery { get; set; } = "";
     [ObservableProperty] public partial bool HasSearchResults { get; set; }
     [ObservableProperty] public partial bool IsSearchActive { get; set; }
-
-    partial void OnSourceFilterChanged(string value) => ApplyFilter();
 
     [RelayCommand]
     public async Task LoadFeaturedContentAsync()
@@ -51,6 +48,8 @@ public partial class HomeViewModel(IWingetService winget) : FilterableViewModel
 
     [RelayCommand]
     public async Task SearchAsync(string query) => await SearchInternalAsync(query, false);
+
+    public void CancelSearch() => _searchCts?.Cancel();
 
     public static (bool ShouldSearch, string CleanQuery, string DisplayQuery) ProcessSearchQuery(string? query, bool forceSearchAll)
     {
@@ -96,23 +95,7 @@ public partial class HomeViewModel(IWingetService winget) : FilterableViewModel
         return filtered;
     }
 
-    public static List<WingetPackage> FilterAndSortSearchResults(IEnumerable<WingetPackage>? searchResults, string filterQuery, string sourceFilter, string sortOrder)
-    {
-        var filtered = (searchResults ?? [])
-            .Where(p => p != null && p.MatchesQuery(filterQuery ?? "") && MatchesSourceFilter(p.Source, sourceFilter))
-            .ToList();
-
-        if (sortOrder == SortOrders.Default)
-        {
-            filtered = [.. filtered.OrderBy(p => (p.Source ?? "").Equals(SourceFilters.Winget, StringComparison.OrdinalIgnoreCase) ? 0 : 1)];
-        }
-        else
-        {
-            SortPackages(filtered, sortOrder);
-        }
-
-        return filtered;
-    }
+    public static List<WingetPackage> FilterAndSortSearchResults(IEnumerable<WingetPackage>? searchResults, string filterQuery, string sourceFilter, string sortOrder) => PackageFilteringHelper.FilterAndSortSearchResults(searchResults, filterQuery, sourceFilter, sortOrder);
 
     public override void ApplyFilter()
     {

@@ -160,45 +160,11 @@ public sealed partial class UpdatesPage : Page
         UpdateSortGlyphs();
     }
 
-    public static (string Glyph, Visibility Visibility) GetSortGlyph(string sortDirection, string sortBy, string targetField)
-    {
-        string glyph = sortDirection == "Descending" ? "\uE74B" : "\uE74A";
-        bool isActive = sortBy == targetField;
-        return (glyph, isActive ? Visibility.Visible : Visibility.Collapsed);
-    }
+    public static (string Glyph, Visibility Visibility) GetSortGlyph(string sortDirection, string sortBy, string targetField) => InstalledPage.GetSortGlyph(sortDirection, sortBy, targetField);
 
-    private void UpdateSortGlyphs()
-    {
-        string sortDirection = ViewModel.SortDirection;
-        string sortBy = ViewModel.SortBy;
+    private void UpdateSortGlyphs() => SortGlyphUpdater.Apply(ViewModel.SortBy, ViewModel.SortDirection, HeaderNameGlyph, HeaderVersionGlyph, HeaderPublisherGlyph);
 
-        if (HeaderNameGlyph != null)
-        {
-            var (glyph, vis) = GetSortGlyph(sortDirection, sortBy, "Name");
-            HeaderNameGlyph.Glyph = glyph;
-            HeaderNameGlyph.Visibility = vis;
-        }
-
-        if (HeaderVersionGlyph != null)
-        {
-            var (glyph, vis) = GetSortGlyph(sortDirection, sortBy, "Version");
-            HeaderVersionGlyph.Glyph = glyph;
-            HeaderVersionGlyph.Visibility = vis;
-        }
-
-        if (HeaderPublisherGlyph != null)
-        {
-            var (glyph, vis) = GetSortGlyph(sortDirection, sortBy, "Publisher");
-            HeaderPublisherGlyph.Glyph = glyph;
-            HeaderPublisherGlyph.Visibility = vis;
-        }
-    }
-
-    public static List<WingetPackage> FilterPackagesForBulkUpdate(IEnumerable<WingetPackage>? selectedPackages)
-    {
-        if (selectedPackages == null) return new List<WingetPackage>();
-        return selectedPackages.Where(p => p != null && !p.IsInstalling).ToList();
-    }
+    public static List<WingetPackage> FilterPackagesForBulkUpdate(IEnumerable<WingetPackage>? selectedPackages) => PackageFilteringHelper.GetEligiblePackagesForAction(selectedPackages);
 
     private void BulkUpdateButton_Click(object sender, RoutedEventArgs e)
     {

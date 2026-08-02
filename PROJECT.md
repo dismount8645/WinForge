@@ -2,19 +2,24 @@
 
 ## Architecture
 WinUI 3 Desktop Application using MVVM pattern with C# / .NET.
-- **Pages**: DiscoverPage, InstalledPage, UpdatesPage, DetailsPage, SettingsPage
-- **ViewModels**: DiscoverViewModel, InstalledViewModel, UpdatesViewModel, DetailsViewModel, SettingsViewModel, MainViewModel
-- **Services**: PackageService, WingetCliService, SettingsService, NavigationService, UpdateService, TelemetryService, etc.
-- **Controls**: Custom controls / components in Controls/
-- **Tests**: `WingetStore.Tests` project containing 170+ MSTest / xUnit / NUnit unit tests.
+- **Pages**: HomePage, InstalledPage, UpdatesPage, DetailsPage, SettingsPage, AboutPage, NoWingetPage
+- **ViewModels**: HomeViewModel, InstalledViewModel, UpdatesViewModel, SearchViewModel, RecommendationCardViewModel, FilterableViewModel
+- **Services**: WingetService, CachingWingetService, IconService, SettingsService, CliProcessRunner, WingetParser, LogService, NotificationService, PackageFilteringHelper, AppPaths
+- **Controls**: `Controls/ResponsivePageContainer.cs`, `Controls/PackageProgressControl.xaml`/`.xaml.cs`
+- **Tests**: `WingetStore.Tests` (609 xUnit tests) and `WingetStore.exe --run-ui-tests` (59 WinUI integration tests).
+
+## Test Strategy
+- **Pure logic** is extracted into `internal static` methods and tested via xUnit (`dotnet test`, no WinUI needed).
+- **WinUI-bound code** (event handlers, constructors) is exercised in the real WinUI runtime via the UITestRunner integration harness (`WingetStore.exe --run-ui-tests`).
+- WinUI-bound code (`WingetStore.Tests.WinUIPageCreationTests`) fails under `dotnet test` (no WinUI message pump); exclude via `--filter-not-class WingetStore.Tests.WinUIPageCreationTests --xunit-info` and run `WingetStore.exe --run-ui-tests` instead.
 
 ## Milestones
 | # | Name | Scope | Dependencies | Status |
 |---|------|-------|-------------|--------|
-| 1 | M0: Exploration & Baseline Audit | Audit WinUI 3 page layouts, async code quality, and test baseline (170/170 tests passing) | none | DONE |
-| 2 | M1: Visual & Layout Refinement | Fluent Design, 16 DIP container margins, header column alignment, theme resource fixes, accessibility attributes | M0 | IN_PROGRESS |
-| 3 | M2: Code Quality & Performance | Eliminate `async void` delegates, fix null checks on `DetailsPage`, resolve `IconService` file lock race, dispose CTS handles, safe Uri parsing | M1 | PLANNED |
-| 4 | M3: Automated Test Verification | 100% test pass rate across all 170+ unit tests with 0 build errors | M2 | PLANNED |
+| 1 | M0: Exploration & Baseline Audit | Audit WinUI 3 page layouts, async code quality, and test baseline | none | DONE |
+| 2 | M1: Visual & Layout Refinement | Fluent Design, 16 DIP container margins, header column alignment, theme resource fixes, accessibility attributes | M0 | DONE |
+| 3 | M2: Code Quality & Performance | Eliminate `async void` delegates, fix null checks on `DetailsPage`, resolve `IconService` file lock race, dispose CTS handles, safe Uri parsing | M1 | DONE |
+| 4 | M3: Automated Test Verification | 100% test pass rate across all unit tests with 0 build errors | M2 | DONE |
 
 ## Interface Contracts
 ### View ↔ ViewModel
@@ -29,5 +34,7 @@ WinUI 3 Desktop Application using MVVM pattern with C# / .NET.
 - Pages: `Pages/*.xaml`, `Pages/*.xaml.cs`
 - ViewModels: `ViewModels/*.cs`
 - Services: `Services/*.cs`
-- Controls: `Controls/*.xaml`, `Controls/*.xaml.cs`
-- Unit Tests: `WingetStore.Tests/`
+- Controls: `Controls/*.cs`
+- Testing: `Testing/UITestRunner.cs`
+- Unit Tests: `WingetStore.Tests/` (one file per test class)
+- Integration Tests: `WingetStore.exe --run-ui-tests` via `Testing/UITestRunner.cs`

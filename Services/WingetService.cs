@@ -18,7 +18,32 @@ public class WingetService(IProcessRunner processRunner) : IWingetService
     {
         string knownPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), @"Microsoft\WindowsApps\winget.exe");
         if (File.Exists(knownPath)) return knownPath;
-        try { var psi = new ProcessStartInfo { FileName = "where.exe", Arguments = "winget.exe", RedirectStandardOutput = true, UseShellExecute = false, CreateNoWindow = true }; using var process = Process.Start(psi); if (process != null) { string output = process.StandardOutput.ReadToEnd().Trim(); process.WaitForExit(); if (process.ExitCode == 0 && !string.IsNullOrEmpty(output)) { string[] paths = output.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries); if (paths.Length > 0 && File.Exists(paths[0])) return paths[0]; } } } catch (Exception ex) { Debug.WriteLine($"ResolveWingetPath failed: {ex.Message}"); }
+        try
+        {
+            var psi = new ProcessStartInfo
+            {
+                FileName = "where.exe",
+                Arguments = "winget.exe",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using var process = Process.Start(psi);
+            if (process == null) return knownPath;
+
+            string output = process.StandardOutput.ReadToEnd().Trim();
+            process.WaitForExit();
+            if (process.ExitCode == 0 && !string.IsNullOrEmpty(output))
+            {
+                string[] paths = output.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries);
+                if (paths.Length > 0 && File.Exists(paths[0])) return paths[0];
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"ResolveWingetPath failed: {ex.Message}");
+        }
         return knownPath;
     }
 
@@ -70,23 +95,137 @@ public class WingetService(IProcessRunner processRunner) : IWingetService
     public static string BuildImportArguments(string filepath) => $"import -i {EscapeArgument(filepath)} --accept-package-agreements --accept-source-agreements";
 
     public static bool IsWingetAvailable() => File.Exists(WingetPath);
-    public async Task<string> RunCommandAsync(string arguments, CancellationToken cancellationToken = default) { if (!IsWingetAvailable()) throw new FileNotFoundException("Winget.exe was not found. Please install Windows Package Manager."); var output = new StringBuilder(); await _processRunner.RunStreamAsync(WingetPath, arguments, line => { if (line != null) output.AppendLine(line); }, cancellationToken); return output.ToString(); }
-    internal static WingetPackage MapFromRow(Dictionary<string, string> row, bool includeAvailable = false, PackageStatus defaultStatus = PackageStatus.Installable)
+    public async Task<string> RunCommandAsync(string arguments, CancellationToken cancellationToken = default)
+    {
+        if (!IsWingetAvailable())
+        {
+            throw new FileNotFoundException("Winget.exe was not found. Please install Windows Package Manager.");
+        }
+
+        var output = new StringBuilder();
+        await _processRunner.RunStreamAsync(
+            WingetPath,
+            arguments,
+            line =>
+            {
+                if (line != null)
+                {
+                    output.AppendLine(line);
+                }
+            },
+            cancellationToken);
+
+        return output.ToString();
+    }
+
+    internal static WingetPackage MapFromRow(
+        Dictionary<string, string> row,
+        bool includeAvailable = false,
+        PackageStatus defaultStatus = PackageStatus.Installable)
     {
         string src = row.GetValueOrDefault("Source", "");
         if (string.IsNullOrWhiteSpace(src)) src = "winget";
-        return new() { Name = row.GetValueOrDefault("Name", ""), Id = row.GetValueOrDefault("Id", ""), Version = row.GetValueOrDefault("Version", ""), AvailableVersion = includeAvailable ? row.GetValueOrDefault("Available", "") : "", Source = src, Status = defaultStatus };
-    }
-    public async Task<List<WingetPackage>> SearchPackagesAsync(string query, CancellationToken cancellationToken = default) { try { string output = await RunCommandAsync(BuildSearchArguments(query), cancellationToken); return [.. WingetParser.ParseTable(output).Select(row => MapFromRow(row)).Take(150)]; } catch (Exception ex) when (ex is not OperationCanceledException) { Debug.WriteLine($"SearchPackagesAsync failed: {ex.Message}"); return []; } }
 
-    public async Task<List<WingetPackage>> GetInstalledPackagesAsync() { try { string output = await RunCommandAsync(BuildListArguments()); var detailsList = WingetParser.ParseDetailsList(output); if (detailsList != null && detailsList.Count > 0) return detailsList; var tableList = WingetParser.ParseTable(output); return [.. tableList.Select(row => MapFromRow(row, defaultStatus: PackageStatus.Installed))]; } catch (Exception ex) { Debug.WriteLine($"GetInstalledPackagesAsync failed: {ex.Message}"); return []; } }
-    public async Task<List<WingetPackage>> GetUpgradablePackagesAsync() { try { string output = await RunCommandAsync(BuildUpgradeListArguments()); return [.. WingetParser.ParseTable(output).Select(row => MapFromRow(row, includeAvailable: true, defaultStatus: PackageStatus.Upgradable))]; } catch (Exception ex) { Debug.WriteLine($"GetUpgradablePackagesAsync failed: {ex.Message}"); return []; } }
+        string name = row.GetValueOrDefault("Name", "");
+        string id = row.GetValueOrDefault("Id", "");
+        string version = row.GetValueOrDefault("Version", "");
+        string available = includeAvailable ? row.GetValueOrDefault("Available", "") : "";
+
+        return new WingetPackage
+        {
+            Name = name,
+            Id = id,
+            Version = version,
+            AvailableVersion = available,
+            Source = src,
+            Status = defaultStatus
+        };
+    }
+
+    public async Task<List<WingetPackage>> SearchPackagesAsync(string query, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            string output = await RunCommandAsync(BuildSearchArguments(query), cancellationToken);
+            var parsedRows = WingetParser.ParseTable(output);
+            var packages = parsedRows.Select(row => MapFromRow(row)).Take(150);
+            return [.. packages];
+        }
+        catch (Exception ex) when (ex is not OperationCanceledException)
+        {
+            Debug.WriteLine($"SearchPackagesAsync failed: {ex.Message}");
+            return [];
+        }
+    }
+
+    public async Task<List<WingetPackage>> GetInstalledPackagesAsync()
+    {
+        try
+        {
+            string output = await RunCommandAsync(BuildListArguments());
+            var detailsList = WingetParser.ParseDetailsList(output);
+            if (detailsList != null && detailsList.Count > 0)
+            {
+                return detailsList;
+            }
+
+            var tableList = WingetParser.ParseTable(output);
+            var packages = tableList.Select(row => MapFromRow(row, defaultStatus: PackageStatus.Installed));
+            return [.. packages];
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"GetInstalledPackagesAsync failed: {ex.Message}");
+            return [];
+        }
+    }
+
+    public async Task<List<WingetPackage>> GetUpgradablePackagesAsync()
+    {
+        try
+        {
+            string output = await RunCommandAsync(BuildUpgradeListArguments());
+            var tableList = WingetParser.ParseTable(output);
+            var packages = tableList.Select(row => MapFromRow(row, includeAvailable: true, defaultStatus: PackageStatus.Upgradable));
+            return [.. packages];
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"GetUpgradablePackagesAsync failed: {ex.Message}");
+            return [];
+        }
+    }
 
     private static string GetAssetPath(string fileName) => Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", fileName);
-    private static async Task<List<T>> LoadAssetListAsync<T>(string fileName) { try { string path = GetAssetPath(fileName); if (File.Exists(path)) { string json = await File.ReadAllTextAsync(path); var list = System.Text.Json.JsonSerializer.Deserialize<List<T>>(json); if (list != null) return list; } } catch (Exception ex) { Debug.WriteLine($"LoadAssetListAsync({fileName}) failed: {ex.Message}"); } return []; }
+
+    private static async Task<List<T>> LoadAssetListAsync<T>(string fileName)
+    {
+        try
+        {
+            string path = GetAssetPath(fileName);
+            if (File.Exists(path))
+            {
+                string json = await File.ReadAllTextAsync(path);
+                var list = System.Text.Json.JsonSerializer.Deserialize<List<T>>(json);
+                if (list != null)
+                {
+                    return list;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"LoadAssetListAsync({fileName}) failed: {ex.Message}");
+        }
+
+        return [];
+    }
     public async Task<List<WingetPackage>> GetPopularPackagesAsync() => await LoadAssetListAsync<WingetPackage>("popular_packages.json");
 
-    internal static List<WingetPackage> BuildRecommendations(IEnumerable<WingetPackage>? popularPackages, IDictionary<string, WingetPackage>? installedMap, int maxCount = 10)
+    internal static List<WingetPackage> BuildRecommendations(
+        IEnumerable<WingetPackage>? popularPackages,
+        IDictionary<string, WingetPackage>? installedMap,
+        int maxCount = 10)
     {
         if (popularPackages == null) return [];
         installedMap ??= new Dictionary<string, WingetPackage>(StringComparer.OrdinalIgnoreCase);
@@ -152,11 +291,65 @@ public class WingetService(IProcessRunner processRunner) : IWingetService
 
         return BuildRecommendations(popular, installedMap, 10);
     }
-    private async Task FetchDetailsInBackground(WingetPackage pkg) { try { string output = await RunCommandAsync(BuildShowArguments(pkg.Id)); var parsed = WingetParser.ParsePackageDetails(output, pkg.Id); var tags = WingetParser.ParseTagsFromShowOutput(output); App.Dispatch(() => { pkg.Description = parsed.Description; pkg.Homepage = parsed.Homepage; pkg.Publisher = parsed.Publisher; pkg.License = parsed.License; pkg.Tags = tags; }); } catch (Exception ex) { Debug.WriteLine($"FetchDetailsInBackground failed for {pkg.Id}: {ex.Message}"); } }
-    public async Task<List<CategoryItem>> GetCategoriesAsync() => await LoadAssetListAsync<CategoryItem>("categories.json");
-    public async Task<WingetPackage?> GetPackageDetailsAsync(PackageId packageId) { try { string output = await RunCommandAsync(BuildShowArguments(packageId)); var parsed = WingetParser.ParsePackageDetails(output, packageId); return new WingetPackage { Id = packageId, Name = string.IsNullOrEmpty(parsed.Name) ? packageId : parsed.Name, Publisher = parsed.Publisher, Description = parsed.Description, Homepage = parsed.Homepage, License = parsed.License, Version = parsed.Version, InstallerType = parsed.InstallerType, Tags = WingetParser.ParseTagsFromShowOutput(output) }; } catch (Exception ex) { Debug.WriteLine($"GetPackageDetailsAsync failed: {ex.Message}"); return null; } }
+    private async Task FetchDetailsInBackground(WingetPackage pkg)
+    {
+        try
+        {
+            string output = await RunCommandAsync(BuildShowArguments(pkg.Id));
+            var parsed = WingetParser.ParsePackageDetails(output, pkg.Id);
+            var tags = WingetParser.ParseTagsFromShowOutput(output);
 
-    internal static WingetPackage DecoratePackageDetails(WingetPackage? details, string packageId, IEnumerable<WingetPackage>? installedPackages, IEnumerable<WingetPackage>? upgradablePackages)
+            App.Dispatch(() =>
+            {
+                pkg.Description = parsed.Description;
+                pkg.Homepage = parsed.Homepage;
+                pkg.Publisher = parsed.Publisher;
+                pkg.License = parsed.License;
+                pkg.Tags = tags;
+            });
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"FetchDetailsInBackground failed for {pkg.Id}: {ex.Message}");
+        }
+    }
+
+    public async Task<List<CategoryItem>> GetCategoriesAsync() => await LoadAssetListAsync<CategoryItem>("categories.json");
+
+    public async Task<WingetPackage?> GetPackageDetailsAsync(PackageId packageId)
+    {
+        try
+        {
+            string output = await RunCommandAsync(BuildShowArguments(packageId));
+            var parsed = WingetParser.ParsePackageDetails(output, packageId);
+            var tags = WingetParser.ParseTagsFromShowOutput(output);
+            string name = string.IsNullOrEmpty(parsed.Name) ? packageId : parsed.Name;
+
+            return new WingetPackage
+            {
+                Id = packageId,
+                Name = name,
+                Publisher = parsed.Publisher,
+                Description = parsed.Description,
+                Homepage = parsed.Homepage,
+                License = parsed.License,
+                Version = parsed.Version,
+                InstallerType = parsed.InstallerType,
+                Tags = tags
+            };
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"GetPackageDetailsAsync failed: {ex.Message}");
+            return null;
+        }
+    }
+
+    internal static WingetPackage DecoratePackageDetails(
+        WingetPackage? details,
+        string packageId,
+        IEnumerable<WingetPackage>? installedPackages,
+        IEnumerable<WingetPackage>? upgradablePackages)
     {
         var pkg = details ?? new WingetPackage { Id = packageId, Name = packageId };
         var installed = installedPackages ?? Enumerable.Empty<WingetPackage>();
@@ -185,7 +378,20 @@ public class WingetService(IProcessRunner processRunner) : IWingetService
         return pkg;
     }
 
-    public async Task<WingetPackage> FetchAndDecoratePackageDetailsAsync(PackageId packageId) { var detailsTask = GetPackageDetailsAsync(packageId); var installedTask = GetInstalledPackagesAsync(); var upgradableTask = GetUpgradablePackagesAsync(); await Task.WhenAll(detailsTask, installedTask, upgradableTask); return DecoratePackageDetails(detailsTask.Result, packageId, installedTask.Result, upgradableTask.Result); }
+    public async Task<WingetPackage> FetchAndDecoratePackageDetailsAsync(PackageId packageId)
+    {
+        var detailsTask = GetPackageDetailsAsync(packageId);
+        var installedTask = GetInstalledPackagesAsync();
+        var upgradableTask = GetUpgradablePackagesAsync();
+
+        await Task.WhenAll(detailsTask, installedTask, upgradableTask);
+
+        var details = detailsTask.Result;
+        var installed = installedTask.Result;
+        var upgradable = upgradableTask.Result;
+
+        return DecoratePackageDetails(details, packageId, installed, upgradable);
+    }
 
     public enum PackageActionKind { None, Cancel, Uninstall, Upgrade, Install }
 
@@ -236,27 +442,121 @@ public class WingetService(IProcessRunner processRunner) : IWingetService
     public void CancelTaskForPackage(string packageId)
     {
         if (string.IsNullOrEmpty(packageId)) return;
-        var task = ActiveTasks.LastOrDefault(t => t.PackageId.Equals(packageId, StringComparison.OrdinalIgnoreCase) && (t.Status == InstallTaskStatus.Running || t.Status == InstallTaskStatus.Queued));
+        var task = ActiveTasks.LastOrDefault(t =>
+            t.PackageId.Equals(packageId, StringComparison.OrdinalIgnoreCase) &&
+            (t.Status == InstallTaskStatus.Running || t.Status == InstallTaskStatus.Queued));
         if (task != null) CancelTask(task.Id);
     }
 
     private async Task RunTaskAsync(WingetPackage package, TaskOperation op, string arguments)
     {
         var cts = new CancellationTokenSource();
-        var task = new InstallTask { PackageId = package.Id, PackageName = package.Name, Operation = op, Status = InstallTaskStatus.Running, StatusText = "Initializing...", CancellationTokenSource = cts };
-        lock (_taskCtsMap) { _taskCtsMap[task.Id] = cts; }
-        App.Dispatch(() => { ActiveTasks.Add(task); package.IsInstalling = true; package.InstallStatusText = "Initializing..."; package.InstallProgress = 5; });
+        var task = new InstallTask
+        {
+            PackageId = package.Id,
+            PackageName = package.Name,
+            Operation = op,
+            Status = InstallTaskStatus.Running,
+            StatusText = "Initializing...",
+            CancellationTokenSource = cts
+        };
+
+        lock (_taskCtsMap)
+        {
+            _taskCtsMap[task.Id] = cts;
+        }
+
+        App.Dispatch(() =>
+        {
+            ActiveTasks.Add(task);
+            package.IsInstalling = true;
+            package.InstallStatusText = "Initializing...";
+            package.InstallProgress = 5;
+        });
+
         try
         {
-            var outputLog = new StringBuilder(); int exitCode = await _processRunner.RunStreamAsync(WingetPath, arguments, line => { if (line == null) return; outputLog.AppendLine(line); double progress = WingetParser.ParseProgressFromOutput(line); string statusText = WingetParser.ParseStatusTextFromOutput(line); App.Dispatch(() => { task.LogOutput = outputLog.ToString(); if (progress > 0) { task.Progress = progress; package.InstallProgress = progress; } if (!string.IsNullOrEmpty(statusText)) { task.StatusText = statusText; package.InstallStatusText = statusText; } }); }, cts.Token);
-            App.Dispatch(() => { package.IsInstalling = false; if (exitCode == 0) { task.Status = InstallTaskStatus.Completed; task.StatusText = op == TaskOperation.Uninstall ? "Uninstalled" : "Installed"; task.Progress = 100; package.InstallProgress = 100; package.InstallStatusText = task.StatusText; package.Status = op == TaskOperation.Uninstall ? PackageStatus.Installable : PackageStatus.Installed; } else { task.Status = InstallTaskStatus.Failed; task.StatusText = $"Failed (Exit code: {exitCode})"; package.InstallStatusText = task.StatusText; } WeakReferenceMessenger.Default.Send(new PackageStatusChangedMessage(package)); });
+            var outputLog = new StringBuilder();
+            int exitCode = await _processRunner.RunStreamAsync(
+                WingetPath,
+                arguments,
+                line =>
+                {
+                    if (line == null) return;
+
+                    outputLog.AppendLine(line);
+                    double progress = WingetParser.ParseProgressFromOutput(line);
+                    string statusText = WingetParser.ParseStatusTextFromOutput(line);
+
+                    App.Dispatch(() =>
+                    {
+                        task.LogOutput = outputLog.ToString();
+                        if (progress > 0)
+                        {
+                            task.Progress = progress;
+                            package.InstallProgress = progress;
+                        }
+                        if (!string.IsNullOrEmpty(statusText))
+                        {
+                            task.StatusText = statusText;
+                            package.InstallStatusText = statusText;
+                        }
+                    });
+                },
+                cts.Token);
+
+            App.Dispatch(() =>
+            {
+                package.IsInstalling = false;
+                if (exitCode == 0)
+                {
+                    task.Status = InstallTaskStatus.Completed;
+                    task.StatusText = op == TaskOperation.Uninstall ? "Uninstalled" : "Installed";
+                    task.Progress = 100;
+                    package.InstallProgress = 100;
+                    package.InstallStatusText = task.StatusText;
+                    package.Status = op == TaskOperation.Uninstall ? PackageStatus.Installable : PackageStatus.Installed;
+                }
+                else
+                {
+                    task.Status = InstallTaskStatus.Failed;
+                    task.StatusText = $"Failed (Exit code: {exitCode})";
+                    package.InstallStatusText = task.StatusText;
+                }
+
+                WeakReferenceMessenger.Default.Send(new PackageStatusChangedMessage(package));
+            });
         }
         catch (OperationCanceledException)
         {
-            App.Dispatch(() => { package.IsInstalling = false; task.Status = InstallTaskStatus.Cancelled; task.StatusText = "Canceled"; package.InstallStatusText = "Canceled"; WeakReferenceMessenger.Default.Send(new PackageStatusChangedMessage(package)); });
+            App.Dispatch(() =>
+            {
+                package.IsInstalling = false;
+                task.Status = InstallTaskStatus.Cancelled;
+                task.StatusText = "Canceled";
+                package.InstallStatusText = "Canceled";
+                WeakReferenceMessenger.Default.Send(new PackageStatusChangedMessage(package));
+            });
         }
-        catch (Exception ex) { App.Dispatch(() => { package.IsInstalling = false; task.Status = InstallTaskStatus.Failed; task.StatusText = $"Error: {ex.Message}"; package.InstallStatusText = task.StatusText; WeakReferenceMessenger.Default.Send(new PackageStatusChangedMessage(package)); }); }
-        finally { lock (_taskCtsMap) { _taskCtsMap.Remove(task.Id); } cts.Dispose(); }
+        catch (Exception ex)
+        {
+            App.Dispatch(() =>
+            {
+                package.IsInstalling = false;
+                task.Status = InstallTaskStatus.Failed;
+                task.StatusText = $"Error: {ex.Message}";
+                package.InstallStatusText = task.StatusText;
+                WeakReferenceMessenger.Default.Send(new PackageStatusChangedMessage(package));
+            });
+        }
+        finally
+        {
+            lock (_taskCtsMap)
+            {
+                _taskCtsMap.Remove(task.Id);
+            }
+            cts.Dispose();
+        }
     }
 
     public async Task<string> ExportPackagesAsync(string filepath) => await RunCommandAsync(BuildExportArguments(filepath));
