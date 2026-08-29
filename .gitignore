@@ -16,3 +16,13 @@
 ## OS files
 .DS_Store
 Thumbs.db
+# Secrets & env - never commit
+.env
+.env.local
+.env.*.local
+secrets.json
+credentials.json
+*.pem
+*.key
+*.p12
+*.pfx
