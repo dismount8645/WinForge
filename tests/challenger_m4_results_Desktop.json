@@ -1,0 +1,136 @@
+﻿{
+    "Engine":  "5.1.26100.9278",
+    "Edition":  "Desktop",
+    "Timestamp":  "2026-08-28T16:44:22.6276182+02:00",
+    "Total":  18,
+    "Passed":  18,
+    "Failed":  0,
+    "Tests":  [
+                  {
+                      "Category":  "DualEngine",
+                      "Name":  "ViVeToolEnabler module exports all required functions",
+                      "Status":  "PASS",
+                      "Duration":  "35ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "DualEngine",
+                      "Name":  "AST Syntax validation on all repository scripts under current engine",
+                      "Status":  "PASS",
+                      "Duration":  "76ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "DryRun",
+                      "Name":  "Enable-Features.ps1 -DryRun executes all 118 catalog items without side effects",
+                      "Status":  "PASS",
+                      "Duration":  "1981ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "DryRun",
+                      "Name":  "Enable-Features.ps1 -DryRun -Channel \u0027GA2026\u0027, \u0027Canary\u0027 processes exact subset (26 features)",
+                      "Status":  "PASS",
+                      "Duration":  "386ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "DryRun",
+                      "Name":  "Enable-Features.ps1 -DryRun -FeatureIds custom list processes exact explicit IDs",
+                      "Status":  "PASS",
+                      "Duration":  "107ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "Logging",
+                      "Name":  "Multi-sink logger handles quotes, newlines, and unicode safely in plain text, CSV and JSON",
+                      "Status":  "PASS",
+                      "Duration":  "38ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "Logging",
+                      "Name":  "Logger automatically recovers to TEMP when target directory is invalid/unwritable",
+                      "Status":  "PASS",
+                      "Duration":  "13ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "RollbackGen",
+                      "Name":  "New-RollbackScript generates valid executable standalone PS1 script",
+                      "Status":  "PASS",
+                      "Duration":  "23ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "RollbackGen",
+                      "Name":  "New-RollbackScript with -ReverseOrder inverts the execution order",
+                      "Status":  "PASS",
+                      "Duration":  "27ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "RollbackGen",
+                      "Name":  "New-RollbackScript with -FromLog parses only applied features from CSV",
+                      "Status":  "PASS",
+                      "Duration":  "24ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "RollbackExecution",
+                      "Name":  "Enable batch -\u003e generate rollback script -\u003e execute rollback script -\u003e verify mock store",
+                      "Status":  "PASS",
+                      "Duration":  "263ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "RollbackExecution",
+                      "Name":  "Disable-Features.ps1 -FromLog reverts only successful entries and creates disable logs",
+                      "Status":  "PASS",
+                      "Duration":  "99ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "RollbackExecution",
+                      "Name":  "Disable-Features.ps1 -FullReset runs rollback across all 118 catalog IDs",
+                      "Status":  "PASS",
+                      "Duration":  "1991ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "EdgeCases",
+                      "Name":  "Disable-Features.ps1 -FromLog with missing file exits with error code 1",
+                      "Status":  "PASS",
+                      "Duration":  "24ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "EdgeCases",
+                      "Name":  "Invoke-FeatureBatch handles injected unsupported and denied IDs without breaking loop",
+                      "Status":  "PASS",
+                      "Duration":  "88ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "EdgeCases",
+                      "Name":  "Invoke-FeatureBatch handles exit code 255 (Crash mode) without terminating caller",
+                      "Status":  "PASS",
+                      "Duration":  "39ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "EdgeCases",
+                      "Name":  "Ensure-ViVeTool in DryRun mode returns fallback path without throwing",
+                      "Status":  "PASS",
+                      "Duration":  "4ms",
+                      "Error":  ""
+                  },
+                  {
+                      "Category":  "EdgeCases",
+                      "Name":  "Positional argument normalization when numeric ID passed as position 0",
+                      "Status":  "PASS",
+                      "Duration":  "57ms",
+                      "Error":  ""
+                  }
+              ]
+}
