@@ -58,4 +58,5 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-[MIT](LICENSE) © 2026 Jacob Krarup Madsen (dismount8645)
+[MIT](LICENSE) © 2026 dismount8645 (dismount8645)
+
