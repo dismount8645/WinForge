@@ -1,0 +1,1155 @@
+{
+  "Runner": "Test-FeatureEnabler",
+  "Timestamp": "2026-08-28T16:44:50.5438093+02:00",
+  "DurationSec": 8.56,
+  "Tiers": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "ExecutionMode": "Mock",
+  "Summary": {
+    "Total": 126,
+    "Passed": 126,
+    "Failed": 0,
+    "Skipped": 0,
+    "AllPassed": true
+  },
+  "Results": [
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "Binary Presence Detection",
+      "Name": "T1.PROV.01: Should detect existing ViVeTool.exe in destination path",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 55,
+      "Timestamp": "2026-08-28T16:44:42.1409121+02:00"
+    },
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "Binary Presence Detection",
+      "Name": "T1.PROV.02: Should identify missing ViVeTool.exe and predict destination in DryRun",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 8,
+      "Timestamp": "2026-08-28T16:44:42.1978545+02:00"
+    },
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "Architecture Detection",
+      "Name": "T1.PROV.03: Should correctly identify host processor architecture",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 13,
+      "Timestamp": "2026-08-28T16:44:42.2076885+02:00"
+    },
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "Architecture Detection",
+      "Name": "T1.PROV.04: Should select SnapdragonArm64 architecture on ARM64 host",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:42.2211750+02:00"
+    },
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "Architecture Detection",
+      "Name": "T1.PROV.05: Should select IntelAmd architecture on AMD64/x64 host",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:42.2240239+02:00"
+    },
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "Upstream Release & Download URL Resolution",
+      "Name": "T1.PROV.06: Should target official thebookisclosed/ViVe repository",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 7,
+      "Timestamp": "2026-08-28T16:44:42.2270775+02:00"
+    },
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "Upstream Release & Download URL Resolution",
+      "Name": "T1.PROV.07: Should resolve download asset filename matching release format",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:42.2343232+02:00"
+    },
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "Archive Structure & Required Dependencies",
+      "Name": "T1.PROV.08: Should define all 4 critical release payload files",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 7,
+      "Timestamp": "2026-08-28T16:44:42.2372264+02:00"
+    },
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "Archive Structure & Required Dependencies",
+      "Name": "T1.PROV.09: Should verify extraction places files in flat target root directory",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 12,
+      "Timestamp": "2026-08-28T16:44:42.2452745+02:00"
+    },
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "UAC Administrator Elevation Subsystem",
+      "Name": "T1.PROV.10: Test-IsAdministrator should return strict boolean and support mock override",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 7,
+      "Timestamp": "2026-08-28T16:44:42.2590408+02:00"
+    },
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "UAC Administrator Elevation Subsystem",
+      "Name": "T1.PROV.11: Invoke-SelfElevation should terminate recursion when -Elevated switch is present",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 23,
+      "Timestamp": "2026-08-28T16:44:42.2664273+02:00"
+    },
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "UAC Administrator Elevation Subsystem",
+      "Name": "T1.PROV.12: Invoke-SelfElevation returns true when session is already elevated",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:42.2903175+02:00"
+    },
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "UAC Administrator Elevation Subsystem",
+      "Name": "T1.PROV.13: Should support non-interactive / unprivileged detection without UI hang",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:42.2925598+02:00"
+    },
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "AST Syntax & Parameter Contracts for Get-ViVeTool",
+      "Name": "T1.PROV.14: Get-ViVeTool.ps1 script must parse without syntax errors",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 9,
+      "Timestamp": "2026-08-28T16:44:42.2958107+02:00"
+    },
+    {
+      "Suite": "Tier 1: ViVeTool Provisioning & Architecture Detection",
+      "Context": "AST Syntax & Parameter Contracts for Get-ViVeTool",
+      "Name": "T1.PROV.15: ViVeToolEnabler.psm1 module must parse without syntax errors",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 30,
+      "Timestamp": "2026-08-28T16:44:42.3057146+02:00"
+    },
+    {
+      "Suite": "Tier 2: Provisioning Boundary, Fault Injection & Corner Cases",
+      "Context": "Corrupted & Zero-Byte Binary Handling",
+      "Name": "T2.PROV.01: Should reject zero-byte ViVeTool.exe as corrupted",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 11,
+      "Timestamp": "2026-08-28T16:44:42.3396476+02:00"
+    },
+    {
+      "Suite": "Tier 2: Provisioning Boundary, Fault Injection & Corner Cases",
+      "Context": "Corrupted & Zero-Byte Binary Handling",
+      "Name": "T2.PROV.02: Should validate executable PE header signature (MZ)",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 12,
+      "Timestamp": "2026-08-28T16:44:42.3509630+02:00"
+    },
+    {
+      "Suite": "Tier 2: Provisioning Boundary, Fault Injection & Corner Cases",
+      "Context": "Corrupted & Zero-Byte Binary Handling",
+      "Name": "T2.PROV.03: Should reject truncated or invalid zip archive",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 14,
+      "Timestamp": "2026-08-28T16:44:42.3636887+02:00"
+    },
+    {
+      "Suite": "Tier 2: Provisioning Boundary, Fault Injection & Corner Cases",
+      "Context": "Path Edge Cases & Special Characters",
+      "Name": "T2.PROV.04: Ensure-ViVeTool should support bracketed directories and paths with literal paths",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 12,
+      "Timestamp": "2026-08-28T16:44:42.3801602+02:00"
+    },
+    {
+      "Suite": "Tier 2: Provisioning Boundary, Fault Injection & Corner Cases",
+      "Context": "Path Edge Cases & Special Characters",
+      "Name": "T2.PROV.05: Should automatically create missing deeply nested target directories",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 7,
+      "Timestamp": "2026-08-28T16:44:42.3923895+02:00"
+    },
+    {
+      "Suite": "Tier 2: Provisioning Boundary, Fault Injection & Corner Cases",
+      "Context": "Simulated Network Faults & Offline Fallback",
+      "Name": "T2.PROV.06: Should throw descriptive exception on simulated download failure",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1029,
+      "Timestamp": "2026-08-28T16:44:42.4016247+02:00"
+    },
+    {
+      "Suite": "Tier 2: Provisioning Boundary, Fault Injection & Corner Cases",
+      "Context": "Simulated Network Faults & Offline Fallback",
+      "Name": "T2.PROV.07: Should provide manual placement instructions when offline",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 3,
+      "Timestamp": "2026-08-28T16:44:43.4315063+02:00"
+    },
+    {
+      "Suite": "Tier 2: Provisioning Boundary, Fault Injection & Corner Cases",
+      "Context": "Elevation Security & Loop Prevention",
+      "Name": "T2.PROV.08: Invoke-SelfElevation should abort when recursion guard BoundParameters contains Elevated",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 5,
+      "Timestamp": "2026-08-28T16:44:43.4365215+02:00"
+    },
+    {
+      "Suite": "Tier 2: Provisioning Boundary, Fault Injection & Corner Cases",
+      "Context": "Elevation Security & Loop Prevention",
+      "Name": "T2.PROV.09: Ensure-ViVeTool throws terminating error when explicit ViVeToolPath is missing",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 5,
+      "Timestamp": "2026-08-28T16:44:43.4423214+02:00"
+    },
+    {
+      "Suite": "Tier 2: Provisioning Boundary, Fault Injection & Corner Cases",
+      "Context": "Elevation Security & Loop Prevention",
+      "Name": "T2.PROV.10: Ensure-ViVeTool discovers and returns explicitly specified existing binary path",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 6,
+      "Timestamp": "2026-08-28T16:44:43.4483525+02:00"
+    },
+    {
+      "Suite": "Tier 2: Provisioning Boundary, Fault Injection & Corner Cases",
+      "Context": "Elevation Security & Loop Prevention",
+      "Name": "T2.PROV.11: Ensure-ViVeTool in DryRun mode skips disk writes and predicts destination path",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 6,
+      "Timestamp": "2026-08-28T16:44:43.4549397+02:00"
+    },
+    {
+      "Suite": "Tier 2: Provisioning Boundary, Fault Injection & Corner Cases",
+      "Context": "Elevation Security & Loop Prevention",
+      "Name": "T2.PROV.12: Should validate SHA256 / length integrity checks when present",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 11,
+      "Timestamp": "2026-08-28T16:44:43.4614862+02:00"
+    },
+    {
+      "Suite": "Tier 1: Feature Catalog Integrity & Channel Validation",
+      "Context": "Raw Reference Quantities & Specification Alignment",
+      "Name": "T1.CAT.01: GA 2026 must contain exactly 21 feature references",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.4950587+02:00"
+    },
+    {
+      "Suite": "Tier 1: Feature Catalog Integrity & Channel Validation",
+      "Context": "Raw Reference Quantities & Specification Alignment",
+      "Name": "T1.CAT.02: GA 2025 must contain exactly 12 feature references",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.4965628+02:00"
+    },
+    {
+      "Suite": "Tier 1: Feature Catalog Integrity & Channel Validation",
+      "Context": "Raw Reference Quantities & Specification Alignment",
+      "Name": "T1.CAT.03: 26H2 Builds must contain exactly 72 feature references",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.4982628+02:00"
+    },
+    {
+      "Suite": "Tier 1: Feature Catalog Integrity & Channel Validation",
+      "Context": "Raw Reference Quantities & Specification Alignment",
+      "Name": "T1.CAT.04: 25H2 Builds must contain exactly 31 feature references",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.4997196+02:00"
+    },
+    {
+      "Suite": "Tier 1: Feature Catalog Integrity & Channel Validation",
+      "Context": "Raw Reference Quantities & Specification Alignment",
+      "Name": "T1.CAT.05: Canary / Feature Platforms must contain exactly 5 feature references",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.5011048+02:00"
+    },
+    {
+      "Suite": "Tier 1: Feature Catalog Integrity & Channel Validation",
+      "Context": "Raw Reference Quantities & Specification Alignment",
+      "Name": "T1.CAT.06: Total reference count across all channels must equal 141",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.5026750+02:00"
+    },
+    {
+      "Suite": "Tier 1: Feature Catalog Integrity & Channel Validation",
+      "Context": "Raw Reference Quantities & Specification Alignment",
+      "Name": "T1.CAT.07: Deduplicated unique feature ID count must equal exactly 118",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.5043440+02:00"
+    },
+    {
+      "Suite": "Tier 1: Feature Catalog Integrity & Channel Validation",
+      "Context": "Numeric Format & Typing Integrity",
+      "Name": "T1.CAT.08: 100% of feature IDs must match strict numeric pattern ^\\d{7,8}$",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 6,
+      "Timestamp": "2026-08-28T16:44:43.5072291+02:00"
+    },
+    {
+      "Suite": "Tier 1: Feature Catalog Integrity & Channel Validation",
+      "Context": "Numeric Format & Typing Integrity",
+      "Name": "T1.CAT.09: 100% of feature IDs must successfully cast to [uint32]",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 21,
+      "Timestamp": "2026-08-28T16:44:43.5134468+02:00"
+    },
+    {
+      "Suite": "Tier 1: Feature Catalog Integrity & Channel Validation",
+      "Context": "Numeric Format & Typing Integrity",
+      "Name": "T1.CAT.10: Zero null, empty, or whitespace entries in catalog",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 5,
+      "Timestamp": "2026-08-28T16:44:43.5350551+02:00"
+    },
+    {
+      "Suite": "Tier 1: Feature Catalog Integrity & Channel Validation",
+      "Context": "Cross-Channel Overlap Verification",
+      "Name": "T1.CAT.11: Exactly 23 IDs must appear in multiple channels",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 139,
+      "Timestamp": "2026-08-28T16:44:43.5419818+02:00"
+    },
+    {
+      "Suite": "Tier 1: Feature Catalog Integrity & Channel Validation",
+      "Context": "Cross-Channel Overlap Verification",
+      "Name": "T1.CAT.12: Verify specific known cross-channel overlap IDs",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.6813798+02:00"
+    },
+    {
+      "Suite": "Tier 1: Feature Catalog Integrity & Channel Validation",
+      "Context": "Cross-Channel Overlap Verification",
+      "Name": "T1.CAT.13: Canary build IDs must be 100% exclusive to Canary",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:43.6834505+02:00"
+    },
+    {
+      "Suite": "Tier 1: Feature Catalog Integrity & Channel Validation",
+      "Context": "FeatureCatalog.json Schema Validation",
+      "Name": "T1.CAT.14: FeatureCatalog.json schema must match expected contract if present",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 11,
+      "Timestamp": "2026-08-28T16:44:43.6872377+02:00"
+    },
+    {
+      "Suite": "Tier 2: Catalog Boundary, Corner Cases & Channel Filtering",
+      "Context": "Channel Filtering Logic & Permutations",
+      "Name": "T2.CAT.01: Filtering by 'GA2026' should return exactly 21 unique IDs",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 4,
+      "Timestamp": "2026-08-28T16:44:43.7015421+02:00"
+    },
+    {
+      "Suite": "Tier 2: Catalog Boundary, Corner Cases & Channel Filtering",
+      "Context": "Channel Filtering Logic & Permutations",
+      "Name": "T2.CAT.02: Filtering by 'GA2025' should return exactly 12 unique IDs",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 3,
+      "Timestamp": "2026-08-28T16:44:43.7057866+02:00"
+    },
+    {
+      "Suite": "Tier 2: Catalog Boundary, Corner Cases & Channel Filtering",
+      "Context": "Channel Filtering Logic & Permutations",
+      "Name": "T2.CAT.03: Filtering by '26H2' should return exactly 72 unique IDs",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 4,
+      "Timestamp": "2026-08-28T16:44:43.7098125+02:00"
+    },
+    {
+      "Suite": "Tier 2: Catalog Boundary, Corner Cases & Channel Filtering",
+      "Context": "Channel Filtering Logic & Permutations",
+      "Name": "T2.CAT.04: Filtering by '25H2' should return exactly 31 unique IDs",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 3,
+      "Timestamp": "2026-08-28T16:44:43.7139912+02:00"
+    },
+    {
+      "Suite": "Tier 2: Catalog Boundary, Corner Cases & Channel Filtering",
+      "Context": "Channel Filtering Logic & Permutations",
+      "Name": "T2.CAT.05: Filtering by 'Canary' should return exactly 5 unique IDs",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 4,
+      "Timestamp": "2026-08-28T16:44:43.7176492+02:00"
+    },
+    {
+      "Suite": "Tier 2: Catalog Boundary, Corner Cases & Channel Filtering",
+      "Context": "Channel Filtering Logic & Permutations",
+      "Name": "T2.CAT.06: Filtering by multiple channels 'GA2026', 'Canary' should return 26 unique IDs",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 3,
+      "Timestamp": "2026-08-28T16:44:43.7222047+02:00"
+    },
+    {
+      "Suite": "Tier 2: Catalog Boundary, Corner Cases & Channel Filtering",
+      "Context": "Channel Filtering Logic & Permutations",
+      "Name": "T2.CAT.07: Filtering by 'All' should return all 118 unique IDs",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.7260144+02:00"
+    },
+    {
+      "Suite": "Tier 2: Catalog Boundary, Corner Cases & Channel Filtering",
+      "Context": "Boundary Handling: Case-Insensitivity & Faults",
+      "Name": "T2.CAT.08: Channel filter matching must be case-insensitive",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:43.7294279+02:00"
+    },
+    {
+      "Suite": "Tier 2: Catalog Boundary, Corner Cases & Channel Filtering",
+      "Context": "Boundary Handling: Case-Insensitivity & Faults",
+      "Name": "T2.CAT.09: Invalid / unrecognized channel name should return empty array",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 3,
+      "Timestamp": "2026-08-28T16:44:43.7315717+02:00"
+    },
+    {
+      "Suite": "Tier 2: Catalog Boundary, Corner Cases & Channel Filtering",
+      "Context": "Boundary Handling: Case-Insensitivity & Faults",
+      "Name": "T2.CAT.10: Empty string channel filter should default or return empty",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:43.7357055+02:00"
+    },
+    {
+      "Suite": "Tier 2: Catalog Boundary, Corner Cases & Channel Filtering",
+      "Context": "Boundary Handling: Case-Insensitivity & Faults",
+      "Name": "T2.CAT.11: Malformed JSON catalog parsing should throw clean exception",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 4,
+      "Timestamp": "2026-08-28T16:44:43.7380019+02:00"
+    },
+    {
+      "Suite": "Tier 2: Catalog Boundary, Corner Cases & Channel Filtering",
+      "Context": "Boundary Handling: Case-Insensitivity & Faults",
+      "Name": "T2.CAT.12: Deduplication function should eliminate duplicate ID entries safely",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:43.7423669+02:00"
+    },
+    {
+      "Suite": "Tier 2: Catalog Boundary, Corner Cases & Channel Filtering",
+      "Context": "Boundary Handling: Case-Insensitivity & Faults",
+      "Name": "T2.CAT.13: Custom FeatureIDs filter override should take precedence over channel",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 3,
+      "Timestamp": "2026-08-28T16:44:43.7445027+02:00"
+    },
+    {
+      "Suite": "Tier 1: Batch Feature Enabler Subsystem & Status Parsing",
+      "Context": "Sequential Execution Loop & CLI Protocol",
+      "Name": "T1.ENAB.01: Mock ViVeTool shim should execute /enable /id:<id> successfully",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 22,
+      "Timestamp": "2026-08-28T16:44:43.7657565+02:00"
+    },
+    {
+      "Suite": "Tier 1: Batch Feature Enabler Subsystem & Status Parsing",
+      "Context": "Sequential Execution Loop & CLI Protocol",
+      "Name": "T1.ENAB.02: Sequential batch enabler should iterate over all provided feature IDs",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 48,
+      "Timestamp": "2026-08-28T16:44:43.7878788+02:00"
+    },
+    {
+      "Suite": "Tier 1: Batch Feature Enabler Subsystem & Status Parsing",
+      "Context": "Sequential Execution Loop & CLI Protocol",
+      "Name": "T1.ENAB.03: Should format arguments with /enable and /id:<id> prefix",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.8364569+02:00"
+    },
+    {
+      "Suite": "Tier 1: Batch Feature Enabler Subsystem & Status Parsing",
+      "Context": "Status Classification Engine",
+      "Name": "T1.ENAB.04: Exit code 0 with success message must classify as 'Success'",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.8393187+02:00"
+    },
+    {
+      "Suite": "Tier 1: Batch Feature Enabler Subsystem & Status Parsing",
+      "Context": "Status Classification Engine",
+      "Name": "T1.ENAB.05: Exit code 1 or 'Feature not found' must classify as 'Unsupported'",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:43.8408385+02:00"
+    },
+    {
+      "Suite": "Tier 1: Batch Feature Enabler Subsystem & Status Parsing",
+      "Context": "Status Classification Engine",
+      "Name": "T1.ENAB.06: Exit code 5 or 'Access is denied' must classify as 'AccessDenied'",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.8435481+02:00"
+    },
+    {
+      "Suite": "Tier 1: Batch Feature Enabler Subsystem & Status Parsing",
+      "Context": "Status Classification Engine",
+      "Name": "T1.ENAB.07: Syntax error or exit code 2 must classify as 'SyntaxError'",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 7,
+      "Timestamp": "2026-08-28T16:44:43.8454015+02:00"
+    },
+    {
+      "Suite": "Tier 1: Batch Feature Enabler Subsystem & Status Parsing",
+      "Context": "Status Classification Engine",
+      "Name": "T1.ENAB.08: Unexpected fatal error code (e.g. 255) must classify as 'FatalError'",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.8535028+02:00"
+    },
+    {
+      "Suite": "Tier 1: Batch Feature Enabler Subsystem & Status Parsing",
+      "Context": "Multi-Sink Persistent Logging Subsystem",
+      "Name": "T1.ENAB.09: Plain text log sink must write structured timestamped entries",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 13,
+      "Timestamp": "2026-08-28T16:44:43.8564596+02:00"
+    },
+    {
+      "Suite": "Tier 1: Batch Feature Enabler Subsystem & Status Parsing",
+      "Context": "Multi-Sink Persistent Logging Subsystem",
+      "Name": "T1.ENAB.10: Structured CSV log sink must write parseable CSV with header",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 19,
+      "Timestamp": "2026-08-28T16:44:43.8700764+02:00"
+    },
+    {
+      "Suite": "Tier 1: Batch Feature Enabler Subsystem & Status Parsing",
+      "Context": "Multi-Sink Persistent Logging Subsystem",
+      "Name": "T1.ENAB.11: JSON metrics summary sink must contain aggregated counts",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 27,
+      "Timestamp": "2026-08-28T16:44:43.8900131+02:00"
+    },
+    {
+      "Suite": "Tier 1: Batch Feature Enabler Subsystem & Status Parsing",
+      "Context": "Explorer Restart & Test Guard Subsystem",
+      "Name": "T1.ENAB.12: In simulated / test mode, explorer restart must be intercepted safely",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.9194334+02:00"
+    },
+    {
+      "Suite": "Tier 1: Batch Feature Enabler Subsystem & Status Parsing",
+      "Context": "Explorer Restart & Test Guard Subsystem",
+      "Name": "T1.ENAB.13: DryRun mode must produce execution preview without invoking binaries",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.9209683+02:00"
+    },
+    {
+      "Suite": "Tier 1: Batch Feature Enabler Subsystem & Status Parsing",
+      "Context": "Explorer Restart & Test Guard Subsystem",
+      "Name": "T1.ENAB.14: Support -WhatIf and -Confirm risk mitigation switches",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.9223629+02:00"
+    },
+    {
+      "Suite": "Tier 2: Enabler Boundary, Fault Injection & Edge Cases",
+      "Context": "Resilience: Graceful Continuation on Errors",
+      "Name": "T2.ENAB.01: Batch loop must continue executing remaining IDs when unsupported IDs occur",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 45,
+      "Timestamp": "2026-08-28T16:44:43.9270119+02:00"
+    },
+    {
+      "Suite": "Tier 2: Enabler Boundary, Fault Injection & Edge Cases",
+      "Context": "Resilience: Graceful Continuation on Errors",
+      "Name": "T2.ENAB.02: Batch loop must handle AccessDenied gracefully and record failure status",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 15,
+      "Timestamp": "2026-08-28T16:44:43.9730680+02:00"
+    },
+    {
+      "Suite": "Tier 2: Enabler Boundary, Fault Injection & Edge Cases",
+      "Context": "Resilience: Graceful Continuation on Errors",
+      "Name": "T2.ENAB.03: ViVeTool exit code 0 caveat: regex parsing catches error in stdout",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:43.9886532+02:00"
+    },
+    {
+      "Suite": "Tier 2: Enabler Boundary, Fault Injection & Edge Cases",
+      "Context": "Resilience: Graceful Continuation on Errors",
+      "Name": "T2.ENAB.04: Batch loop must survive simulated crash of individual feature call",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 11,
+      "Timestamp": "2026-08-28T16:44:43.9904304+02:00"
+    },
+    {
+      "Suite": "Tier 2: Enabler Boundary, Fault Injection & Edge Cases",
+      "Context": "Path & Parameter Robustness",
+      "Name": "T2.ENAB.05: Should support execution paths with spaces, parentheses and special symbols",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 32,
+      "Timestamp": "2026-08-28T16:44:44.0033622+02:00"
+    },
+    {
+      "Suite": "Tier 2: Enabler Boundary, Fault Injection & Edge Cases",
+      "Context": "Path & Parameter Robustness",
+      "Name": "T2.ENAB.06: Unwritable log path should automatically fall back to $env:TEMP",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 4,
+      "Timestamp": "2026-08-28T16:44:44.0360012+02:00"
+    },
+    {
+      "Suite": "Tier 2: Enabler Boundary, Fault Injection & Edge Cases",
+      "Context": "Path & Parameter Robustness",
+      "Name": "T2.ENAB.07: Single-element FeatureIDs array must not suffer from array flattening",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:44.0411328+02:00"
+    },
+    {
+      "Suite": "Tier 2: Enabler Boundary, Fault Injection & Edge Cases",
+      "Context": "Path & Parameter Robustness",
+      "Name": "T2.ENAB.08: Empty FeatureIDs array should exit cleanly with informative warning",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:44.0436541+02:00"
+    },
+    {
+      "Suite": "Tier 2: Enabler Boundary, Fault Injection & Edge Cases",
+      "Context": "Path & Parameter Robustness",
+      "Name": "T2.ENAB.09: Process timeout detection and kill watchdog",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:44.0452586+02:00"
+    },
+    {
+      "Suite": "Tier 2: Enabler Boundary, Fault Injection & Edge Cases",
+      "Context": "Path & Parameter Robustness",
+      "Name": "T2.ENAB.10: Handle large batch with 50+ unsupported IDs without memory bloat",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 4,
+      "Timestamp": "2026-08-28T16:44:44.0474878+02:00"
+    },
+    {
+      "Suite": "Tier 1: Symmetric Rollback & Reversion Subsystem",
+      "Context": "CLI Command Inversion & Execution",
+      "Name": "T1.ROLL.01: Mock ViVeTool shim should execute /disable /id:<id> successfully",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 7,
+      "Timestamp": "2026-08-28T16:44:44.0769995+02:00"
+    },
+    {
+      "Suite": "Tier 1: Symmetric Rollback & Reversion Subsystem",
+      "Context": "CLI Command Inversion & Execution",
+      "Name": "T1.ROLL.02: Rollback commands must strictly invert /enable to /disable",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:44.0844450+02:00"
+    },
+    {
+      "Suite": "Tier 1: Symmetric Rollback & Reversion Subsystem",
+      "Context": "CLI Command Inversion & Execution",
+      "Name": "T1.ROLL.03: Full catalog rollback should generate exactly 118 disable commands",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 5,
+      "Timestamp": "2026-08-28T16:44:44.0873771+02:00"
+    },
+    {
+      "Suite": "Tier 1: Symmetric Rollback & Reversion Subsystem",
+      "Context": "CLI Command Inversion & Execution",
+      "Name": "T1.ROLL.04: AST check on Disable-Features.ps1 must validate syntax",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 3,
+      "Timestamp": "2026-08-28T16:44:44.0927229+02:00"
+    },
+    {
+      "Suite": "Tier 1: Symmetric Rollback & Reversion Subsystem",
+      "Context": "Log-Driven Targeted Reversion (-FromLog)",
+      "Name": "T1.ROLL.05: Should parse applied feature IDs from session CSV log",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 13,
+      "Timestamp": "2026-08-28T16:44:44.0983101+02:00"
+    },
+    {
+      "Suite": "Tier 1: Symmetric Rollback & Reversion Subsystem",
+      "Context": "Log-Driven Targeted Reversion (-FromLog)",
+      "Name": "T1.ROLL.06: Log-driven rollback must ignore Unsupported or Failed records",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 9,
+      "Timestamp": "2026-08-28T16:44:44.1120028+02:00"
+    },
+    {
+      "Suite": "Tier 1: Symmetric Rollback & Reversion Subsystem",
+      "Context": "Dynamic Session Rollback Script Generation",
+      "Name": "T1.ROLL.07: Should generate standalone executable rollback script (rollback_<timestamp>.ps1)",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 63,
+      "Timestamp": "2026-08-28T16:44:44.1233778+02:00"
+    },
+    {
+      "Suite": "Tier 1: Symmetric Rollback & Reversion Subsystem",
+      "Context": "Dynamic Session Rollback Script Generation",
+      "Name": "T1.ROLL.08: Generated rollback script should contain proper ViVeTool invocations",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 24,
+      "Timestamp": "2026-08-28T16:44:44.1866515+02:00"
+    },
+    {
+      "Suite": "Tier 1: Symmetric Rollback & Reversion Subsystem",
+      "Context": "Dynamic Session Rollback Script Generation",
+      "Name": "T1.ROLL.09: Disable-Features.ps1 must support matching parameter interface",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 12,
+      "Timestamp": "2026-08-28T16:44:44.2115546+02:00"
+    },
+    {
+      "Suite": "Tier 1: Symmetric Rollback & Reversion Subsystem",
+      "Context": "Dynamic Session Rollback Script Generation",
+      "Name": "T1.ROLL.10: Rollback logging should produce .log, .csv, and summary .json",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 9,
+      "Timestamp": "2026-08-28T16:44:44.2237993+02:00"
+    },
+    {
+      "Suite": "Tier 2: Rollback Boundary, Error Handling & Corner Cases",
+      "Context": "Fault Injection & Missing Resource Handling",
+      "Name": "T2.ROLL.01: -FromLog with non-existent file path should throw descriptive exception",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 5,
+      "Timestamp": "2026-08-28T16:44:44.2373600+02:00"
+    },
+    {
+      "Suite": "Tier 2: Rollback Boundary, Error Handling & Corner Cases",
+      "Context": "Fault Injection & Missing Resource Handling",
+      "Name": "T2.ROLL.02: -FromLog with empty or corrupted CSV should handle gracefully",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 7,
+      "Timestamp": "2026-08-28T16:44:44.2432560+02:00"
+    },
+    {
+      "Suite": "Tier 2: Rollback Boundary, Error Handling & Corner Cases",
+      "Context": "Fault Injection & Missing Resource Handling",
+      "Name": "T2.ROLL.03: Reverting an already disabled or unsupported ID must not abort batch",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 24,
+      "Timestamp": "2026-08-28T16:44:44.2504849+02:00"
+    },
+    {
+      "Suite": "Tier 2: Rollback Boundary, Error Handling & Corner Cases",
+      "Context": "Fault Injection & Missing Resource Handling",
+      "Name": "T2.ROLL.04: Rollback with channel filter 'Canary' should only revert Canary IDs",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:44.2754662+02:00"
+    },
+    {
+      "Suite": "Tier 2: Rollback Boundary, Error Handling & Corner Cases",
+      "Context": "Fault Injection & Missing Resource Handling",
+      "Name": "T2.ROLL.05: DryRun rollback must not execute any real disable operations",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:44.2774285+02:00"
+    },
+    {
+      "Suite": "Tier 2: Rollback Boundary, Error Handling & Corner Cases",
+      "Context": "Fault Injection & Missing Resource Handling",
+      "Name": "T2.ROLL.06: Rollback log destination unwritable should fall back to temp",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:44.2790760+02:00"
+    },
+    {
+      "Suite": "Tier 2: Rollback Boundary, Error Handling & Corner Cases",
+      "Context": "Fault Injection & Missing Resource Handling",
+      "Name": "T2.ROLL.07: Rollback path containing spaces and special characters must execute properly",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 17,
+      "Timestamp": "2026-08-28T16:44:44.2821549+02:00"
+    },
+    {
+      "Suite": "Tier 2: Rollback Boundary, Error Handling & Corner Cases",
+      "Context": "Fault Injection & Missing Resource Handling",
+      "Name": "T2.ROLL.08: Reverse ordering execution support for dependency unwinding",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 3,
+      "Timestamp": "2026-08-28T16:44:44.3002741+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Channel Permutations & Matrix Deduplication",
+      "Name": "T3.COMB.01: Filter GA2026 exclusively yields 21 features",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:44.3230944+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Channel Permutations & Matrix Deduplication",
+      "Name": "T3.COMB.02: Filter GA2025 exclusively yields 12 features",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:44.3247516+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Channel Permutations & Matrix Deduplication",
+      "Name": "T3.COMB.03: Filter 26H2 exclusively yields 72 features",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:44.3264982+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Channel Permutations & Matrix Deduplication",
+      "Name": "T3.COMB.04: Filter 25H2 exclusively yields 31 features",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:44.3285869+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Channel Permutations & Matrix Deduplication",
+      "Name": "T3.COMB.05: Filter Canary exclusively yields 5 features",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:44.3305090+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Channel Permutations & Matrix Deduplication",
+      "Name": "T3.COMB.06: Multi-channel GA2026 + Canary yields 26 unique features",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:44.3322890+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Channel Permutations & Matrix Deduplication",
+      "Name": "T3.COMB.07: Multi-channel GA2025 + 25H2 yields 41 unique features (2 overlaps)",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:44.3344081+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Channel Permutations & Matrix Deduplication",
+      "Name": "T3.COMB.08: Multi-channel GA2026 + 26H2 yields 75 unique features (18 overlaps)",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:44.3362883+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Channel Permutations & Matrix Deduplication",
+      "Name": "T3.COMB.09: Multi-channel GA2026 + 25H2 yields 51 unique features (1 overlap)",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:44.3388288+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Channel Permutations & Matrix Deduplication",
+      "Name": "T3.COMB.10: Multi-channel GA2025 + 26H2 yields 82 unique features (2 overlaps)",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 3,
+      "Timestamp": "2026-08-28T16:44:44.3421985+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Channel Permutations & Matrix Deduplication",
+      "Name": "T3.COMB.11: Multi-channel 26H2 + 25H2 yields 103 unique features (0 overlaps)",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:44.3457610+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Channel Permutations & Matrix Deduplication",
+      "Name": "T3.COMB.12: All channels combined yield exactly 118 unique features",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:44.3488676+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Simulated Exit Code Distribution Matrix",
+      "Name": "T3.COMB.13: 100% Success Distribution (118 Success)",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 5,
+      "Timestamp": "2026-08-28T16:44:44.3523960+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Simulated Exit Code Distribution Matrix",
+      "Name": "T3.COMB.14: Mixed Result Distribution: 70 Success, 30 Unsupported, 18 Failed",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 19,
+      "Timestamp": "2026-08-28T16:44:44.3576037+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Simulated Exit Code Distribution Matrix",
+      "Name": "T3.COMB.15: 100% Unsupported Distribution (118 Unsupported)",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 4,
+      "Timestamp": "2026-08-28T16:44:44.3771598+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Simulated Exit Code Distribution Matrix",
+      "Name": "T3.COMB.16: Non-Admin Access Denied Distribution (118 AccessDenied)",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 4,
+      "Timestamp": "2026-08-28T16:44:44.3817557+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Execution Argument Permutations",
+      "Name": "T3.COMB.17: Combined parameters -DryRun + -Channel GA2026 + -RestartExplorer",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:44.3874760+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Execution Argument Permutations",
+      "Name": "T3.COMB.18: Combined parameters -FeatureIDs custom array + -LogPath custom",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 5,
+      "Timestamp": "2026-08-28T16:44:44.3891032+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "Execution Argument Permutations",
+      "Name": "T3.COMB.19: Combined parameters -FromLog + -DryRun + -LogPath",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 1,
+      "Timestamp": "2026-08-28T16:44:44.3944044+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "AST Syntax & Static Analysis Matrix",
+      "Name": "T3.COMB.20: AST syntax check across all scripts in repo",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 73,
+      "Timestamp": "2026-08-28T16:44:44.3974102+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "AST Syntax & Static Analysis Matrix",
+      "Name": "T3.COMB.21: AST syntax check across all modules in repo",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 14,
+      "Timestamp": "2026-08-28T16:44:44.4707804+02:00"
+    },
+    {
+      "Suite": "Tier 3: Pairwise Combinations & Channel Matrix Tests",
+      "Context": "AST Syntax & Static Analysis Matrix",
+      "Name": "T3.COMB.22: Reversible symmetry matrix: every channel enablement has exact rollback match",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2,
+      "Timestamp": "2026-08-28T16:44:44.4856018+02:00"
+    },
+    {
+      "Suite": "Tier 4: Real-World End-to-End Application Scenarios",
+      "Context": "Scenario S1: Clean Setup to Full Enablement Lifecycle",
+      "Name": "T4.E2E.01: End-to-end enablement of 118 catalog features with full logging",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 2382,
+      "Timestamp": "2026-08-28T16:44:44.5059397+02:00"
+    },
+    {
+      "Suite": "Tier 4: Real-World End-to-End Application Scenarios",
+      "Context": "Scenario S2: Incremental Run & Idempotency",
+      "Name": "T4.E2E.02: Successive enablement runs must complete cleanly without collision",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 50,
+      "Timestamp": "2026-08-28T16:44:46.8911577+02:00"
+    },
+    {
+      "Suite": "Tier 4: Real-World End-to-End Application Scenarios",
+      "Context": "Scenario S3: Fault Injection & Resilient Recovery",
+      "Name": "T4.E2E.03: Batch must process 100% of features despite injected 0x80070490 and AccessDenied",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 45,
+      "Timestamp": "2026-08-28T16:44:46.9428848+02:00"
+    },
+    {
+      "Suite": "Tier 4: Real-World End-to-End Application Scenarios",
+      "Context": "Scenario S4: Full Symmetric Rollback Lifecycle",
+      "Name": "T4.E2E.04: Full cycle: Batch Enable -> Session Rollback Gen -> Batch Disable -> Verify State",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 3008,
+      "Timestamp": "2026-08-28T16:44:46.9897794+02:00"
+    },
+    {
+      "Suite": "Tier 4: Real-World End-to-End Application Scenarios",
+      "Context": "Scenario S5: Partial Channel Selective Enablement & Rollback",
+      "Name": "T4.E2E.05: Selectively enable GA2026 (21 IDs), revert from CSV log, verify exact reversion",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 417,
+      "Timestamp": "2026-08-28T16:44:49.9998389+02:00"
+    },
+    {
+      "Suite": "Tier 4: Real-World End-to-End Application Scenarios",
+      "Context": "Scenario S6: Non-Destructive Mock Safety & Host Integrity",
+      "Name": "T4.E2E.06: Verify Explorer process is unharmed and host system registry is unmodified",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 10,
+      "Timestamp": "2026-08-28T16:44:50.4191198+02:00"
+    },
+    {
+      "Suite": "Tier 4: Real-World End-to-End Application Scenarios",
+      "Context": "Scenario S6: Non-Destructive Mock Safety & Host Integrity",
+      "Name": "T4.E2E.07: Verify temporary test sandboxes are cleanly removable",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 5,
+      "Timestamp": "2026-08-28T16:44:50.4301210+02:00"
+    },
+    {
+      "Suite": "Tier 4: Real-World End-to-End Application Scenarios",
+      "Context": "Scenario S7: Custom Feature ID Subset Lifecycle",
+      "Name": "T4.E2E.08: Enable specific 5 IDs, generate rollback, revert and verify store",
+      "Status": "Passed",
+      "Error": null,
+      "Duration": 84,
+      "Timestamp": "2026-08-28T16:44:50.4371098+02:00"
+    }
+  ]
+}
