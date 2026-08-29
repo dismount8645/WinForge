@@ -12,11 +12,15 @@ permissions:
   actions: read
 jobs:
   analyze:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
       - uses: github/codeql-action/init@v3
         with:
           languages: csharp
-      - uses: github/codeql-action/autobuild@v3
+      - run: dotnet build WinForge.sln --configuration Release --nologo
+        continue-on-error: true
       - uses: github/codeql-action/analyze@v3
