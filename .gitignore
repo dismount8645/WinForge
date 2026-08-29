@@ -1,0 +1,18 @@
+## Visual Studio / .NET ignores
+[Bb]in/
+[Oo]bj/
+[Tt]est[Rr]esults/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.log
+*.current
+
+## Agent temporary files
+.agents/
+
+## OS files
+.DS_Store
+Thumbs.db
