@@ -1,0 +1,220 @@
+﻿{
+    "Suite":  "Milestone 4 Tier 5 Adversarial Hardening",
+    "Timestamp":  "2026-08-28T16:45:08.3195213+02:00",
+    "Total":  30,
+    "Passed":  28,
+    "Failed":  2,
+    "PassRatePct":  93.33,
+    "Results":  [
+                    {
+                        "Category":  "JSON",
+                        "Name":  "A1. Corrupted/Truncated JSON throws structured ViVeTool.Catalog.ParseError",
+                        "Status":  "PASS",
+                        "Duration":  "110ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "JSON",
+                        "Name":  "A2. Empty string catalog JSON parses gracefully to empty collection",
+                        "Status":  "PASS",
+                        "Duration":  "21ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "JSON",
+                        "Name":  "A3. JSON with single object (non-array) parses without error",
+                        "Status":  "PASS",
+                        "Duration":  "23ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "JSON",
+                        "Name":  "A4. JSON with items missing \u0027Id\u0027 property under StrictMode 2.0",
+                        "Status":  "FAIL",
+                        "Duration":  "34ms",
+                        "Error":  "The property \u0027Id\u0027 cannot be found on this object. Verify that the property exists. (Line: 143)"
+                    },
+                    {
+                        "Category":  "JSON",
+                        "Name":  "A5. Unicode, CJK characters and emojis in catalog parsed accurately",
+                        "Status":  "PASS",
+                        "Duration":  "28ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "JSON",
+                        "Name":  "A6. High-capacity catalog (1000 synthetic items) parses and filters in \u003c1500ms",
+                        "Status":  "PASS",
+                        "Duration":  "136ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "JSON",
+                        "Name":  "A7. Non-existent catalog file falls back to embedded 118 pureinfotech catalog",
+                        "Status":  "PASS",
+                        "Duration":  "14ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "Paths",
+                        "Name":  "B1. Directory with spaces, brackets, parentheses, single quotes \u0026 unicode",
+                        "Status":  "PASS",
+                        "Duration":  "28ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "Paths",
+                        "Name":  "B2. Enable-Features.ps1 CLI dry-run executes cleanly in special path",
+                        "Status":  "PASS",
+                        "Duration":  "2041ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "Paths",
+                        "Name":  "B3. Log path unwritable falls back to TEMP without throwing fatal error",
+                        "Status":  "PASS",
+                        "Duration":  "49ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "Paths",
+                        "Name":  "B4. Dynamic rollback script generated in Unicode special path",
+                        "Status":  "PASS",
+                        "Duration":  "52ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "Paths",
+                        "Name":  "B5. AST syntax verification on generated rollback script in special path",
+                        "Status":  "PASS",
+                        "Duration":  "27ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "HighLoad",
+                        "Name":  "C1. High-throughput batch: 250 feature IDs in simulated mode executes \u003c5s",
+                        "Status":  "PASS",
+                        "Duration":  "3150ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "HighLoad",
+                        "Name":  "C2. 10 successive batch runs maintain memory stability and state",
+                        "Status":  "PASS",
+                        "Duration":  "701ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "HighLoad",
+                        "Name":  "C3. Large session CSV log (500 records) parsed accurately by New-RollbackScript",
+                        "Status":  "PASS",
+                        "Duration":  "103ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "FaultInjection",
+                        "Name":  "D1. Chaos exit codes (0, 1, 2, 5, 255, 137, 42) handled without batch crash",
+                        "Status":  "PASS",
+                        "Duration":  "273ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "FaultInjection",
+                        "Name":  "D2. Native binary process watchdog terminates hung process exceeding timeout",
+                        "Status":  "PASS",
+                        "Duration":  "1022ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "FaultInjection",
+                        "Name":  "D3. Interrupted batch leaves parseable CSV log that rollback can revert",
+                        "Status":  "PASS",
+                        "Duration":  "2138ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "FaultInjection",
+                        "Name":  "D4. Corrupted CSV with missing columns and garbage handled cleanly",
+                        "Status":  "PASS",
+                        "Duration":  "2042ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "CLI",
+                        "Name":  "E1. Enable-Features.ps1 handles single positional ID (e.g. .\\Enable-Features.ps1 61161244)",
+                        "Status":  "PASS",
+                        "Duration":  "2032ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "CLI",
+                        "Name":  "E2. Disable-Features.ps1 handles single positional ID (e.g. .\\Disable-Features.ps1 61161244)",
+                        "Status":  "PASS",
+                        "Duration":  "2040ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "CLI",
+                        "Name":  "E3. Enable-Features.ps1 array delimiter splitting (\u002761161244, 61754985; 62762248\u0027)",
+                        "Status":  "FAIL",
+                        "Duration":  "1033ms",
+                        "Error":  "Assertion evaluated to $false"
+                    },
+                    {
+                        "Category":  "CLI",
+                        "Name":  "E4. Get-FeatureCatalog direct handling of multiple discrete IDs in string array",
+                        "Status":  "PASS",
+                        "Duration":  "27ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "CLI",
+                        "Name":  "E5. Case-insensitive mixed channel filters (\u0027ga2026\u0027, \u0027cAnArY\u0027)",
+                        "Status":  "PASS",
+                        "Duration":  "6ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "CLI",
+                        "Name":  "E6. Empty/Whitespace channel filter returns full catalog",
+                        "Status":  "PASS",
+                        "Duration":  "7ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "Rollback",
+                        "Name":  "F1. New-RollbackScript -ReverseOrder strictly reverses execution sequence",
+                        "Status":  "PASS",
+                        "Duration":  "30ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "Rollback",
+                        "Name":  "F2. Standalone execution of generated rollback script runs cleanly in DryRun",
+                        "Status":  "PASS",
+                        "Duration":  "2028ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "Rollback",
+                        "Name":  "F3. Disable-Features.ps1 with non-existent -FromLog file exits with code 1",
+                        "Status":  "PASS",
+                        "Duration":  "3047ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "Security",
+                        "Name":  "G1. Invoke-SelfElevation with -Elevated when unprivileged throws loop guard",
+                        "Status":  "PASS",
+                        "Duration":  "22ms",
+                        "Error":  ""
+                    },
+                    {
+                        "Category":  "Security",
+                        "Name":  "G2. Get-SystemArchitecture handles blank, unusual or fallback architecture",
+                        "Status":  "PASS",
+                        "Duration":  "8ms",
+                        "Error":  ""
+                    }
+                ]
+}
