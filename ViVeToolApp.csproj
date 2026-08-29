@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>ViVeToolApp</RootNamespace>
+    <AssemblyName>ViVeToolApp</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x64</Platforms>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <UseWinUI>true</UseWinUI>
+    <EnableMsixTooling>false</EnableMsixTooling>
+    <WindowsPackageType>None</WindowsPackageType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsNotAsErrors>MVVMTK0045</WarningsNotAsErrors>
+    <NoWarn>$(NoWarn);MVVMTK0045</NoWarn>
+    <DefaultItemExcludes>$(DefaultItemExcludes);ViVeToolApp.Tests\**</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251003001" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4654" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="ViVeToolApp.Tests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+  </ItemGroup>
+
+  <Target Name="CopyViVeToolDepsToOutput" AfterTargets="Build">
+    <Copy SourceFiles="C:\Tools\vivetool_feature_enabler\vivetool.exe" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" Condition="Exists('C:\Tools\vivetool_feature_enabler\vivetool.exe')" />
+    <Copy SourceFiles="C:\Tools\vivetool_feature_enabler\Albacore.ViVe.dll" DestinationFolder="$(TargetDir)" SkipUnchangedFiles="true" Condition="Exists('C:\Tools\vivetool_feature_enabler\Albacore.ViVe.dll')" />
+  </Target>
+
+  <Target Name="CopyWinUIAssetsToPublish" AfterTargets="Publish">
+    <Copy SourceFiles="$(TargetDir)$(TargetName).pri" DestinationFiles="$(PublishDir)resources.pri" SkipUnchangedFiles="true" Condition="Exists('$(TargetDir)$(TargetName).pri')" />
+    <Copy SourceFiles="$(TargetDir)$(TargetName).pri" DestinationFiles="$(PublishDir)$(TargetName).pri" SkipUnchangedFiles="true" Condition="Exists('$(TargetDir)$(TargetName).pri')" />
+    <ItemGroup>
+      <XbfFiles Include="$(TargetDir)*.xbf" />
+    </ItemGroup>
+    <Copy SourceFiles="@(XbfFiles)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="C:\Tools\vivetool_feature_enabler\vivetool.exe" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" Condition="Exists('C:\Tools\vivetool_feature_enabler\vivetool.exe')" />
+    <Copy SourceFiles="C:\Tools\vivetool_feature_enabler\Albacore.ViVe.dll" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="true" Condition="Exists('C:\Tools\vivetool_feature_enabler\Albacore.ViVe.dll')" />
+  </Target>
+</Project>
