@@ -26,3 +26,5 @@ credentials.json
 *.key
 *.p12
 *.pfx
+*_rsa
+*_ed25519
