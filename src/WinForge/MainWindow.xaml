@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:WingetStore"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Winget Desktop"
+    Title="WinForge"
     mc:Ignorable="d">
     <Window.SystemBackdrop>
         <MicaBackdrop />
@@ -40,7 +40,7 @@
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center" Margin="8,0,0,0">
                 <ImageIcon Width="16" Height="16" Source="Assets/AppIcon.ico" />
-                <TextBlock Text="Winget Desktop" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="13" />
+                <TextBlock Text="WinForge" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="13" />
             </StackPanel>
 
             <Button
@@ -114,12 +114,24 @@
                         </Grid>
                     </NavigationViewItem.Content>
                 </NavigationViewItem>
+
+                <NavigationViewItem Content="Feature Velocity" Tag="features">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE73C;" FontSize="16" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="System Optimizer" Tag="optimizer">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE90F;" FontSize="16" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
             </NavigationView.MenuItems>
 
             <NavigationView.PaneFooter>
                 <Grid Height="44" Padding="12,0">
                     <TextBlock
-                        Text="Winget Desktop v1.0.0"
+                        Text="WinForge v1.0.0"
                         VerticalAlignment="Center"
                         Foreground="{ThemeResource TextFillColorDisabledBrush}"
                         FontSize="11" />
