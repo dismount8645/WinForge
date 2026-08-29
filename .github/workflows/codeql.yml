@@ -13,13 +13,10 @@ permissions:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        language: [ 'csharp', 'javascript' ]
     steps:
       - uses: actions/checkout@v4
       - uses: github/codeql-action/init@v3
         with:
-          languages: ${{ matrix.language }}
+          languages: csharp
+      - uses: github/codeql-action/autobuild@v3
       - uses: github/codeql-action/analyze@v3
